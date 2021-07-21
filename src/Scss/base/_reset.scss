@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+:root {
+    --size: 75px;
+    --clr-bg: #272324;
+    --clr1: #bbbb88;
+    --clr2: #ccc68d;
+    --clr3: #eedd99;
+    --clr4: #eec290;
+    --clr5: #eeaa88;
+}
+div.ant-typography,
+.ant-typography p {
+    margin-bottom: 0;
+}
+// .anticon {
+//     vertical-align: -0.20em;
+// }
+.ant-btn {
+    line-height: 0.5715;
+}
+@media (min-width: 0) {
+    .ant-layout-header {
+        padding: 0 5px;
+    }
+    .ant-switch {
+        margin: 0 5px;
+    }
+}
