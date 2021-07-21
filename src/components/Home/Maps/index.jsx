@@ -1,57 +1,96 @@
+import axios from "axios";
 import * as React from "react";
-import { useState, useRef } from "react";
-import MapGL, { Source, Layer } from "react-map-gl";
+import { useEffect } from "react";
+import { useState } from "react";
+import MapGL, {
+  Source,
+  Layer,
+  GeolocateControl,
+  FullscreenControl,
+  NavigationControl,
+  ScaleControl,
+} from "react-map-gl";
 
-// import {
-//   clusterLayer,
-//   clusterCountLayer,
-//   unclusteredPointLayer,
-// } from "./Layers";
+import { dataLayer, dataCasesLayer } from "./Layers";
 
 const MAPBOX_TOKEN =
   "pk.eyJ1IjoibWluaG5oYzQ3IiwiYSI6ImNrcmRjMTh2dDI5bTQyd2xwMXk3aTZ4cHYifQ.HAy6VhorM-lnsskIWAML8Q"; // Set your mapbox token here
+const geolocateStyle = {
+  top: 0,
+  left: 0,
+  padding: "10px",
+};
+
+const fullscreenControlStyle = {
+  top: 36,
+  left: 0,
+  padding: "10px",
+};
+
+const navStyle = {
+  top: 72,
+  left: 0,
+  padding: "10px",
+};
+
+const scaleControlStyle = {
+  bottom: 36,
+  left: 0,
+  padding: "10px",
+};
 
 export default function Maps() {
   const [viewport, setViewport] = useState({
-    latitude: 40.67,
-    longitude: -103.59,
+    latitude: 40,
+    longitude: -100,
     zoom: 3,
     bearing: 0,
     pitch: 0,
   });
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://disease.sh/v3/covid-19/countries")
+      .then((res) => setCountries(res.data))
+      .catch((e) => console.log(e));
+    console.log("re-render");
+  }, []);
   const geojson = {
     type: "FeatureCollection",
-    features: [
-      {
+    features: countries.map((country) => {
+      return {
         type: "Feature",
-        properties: {},
-        geometry: { type: "Point", coordinates: [-122.4, 37.8] },
-      },
-    ],
+        properties: {
+          country: country.country,
+          countryInfo: country.countryInfo,
+          cases: country.cases,
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [country.countryInfo.long, country.countryInfo.lat],
+        },
+      };
+    }),
   };
-
-  const layerStyle = {
-    id: "point",
-    type: "circle",
-    paint: {
-      "circle-radius": 10,
-      "circle-color": "#007cbf",
-    },
-  };
-
   return (
     <>
       <MapGL
         {...viewport}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
         width="100%"
-        height="50vh"
-        mapStyle="mapbox://styles/mapbox/dark-v9"
+        height="70vh"
+        mapStyle="mapbox://styles/mapbox/light-v9"
         mapboxApiAccessToken={MAPBOX_TOKEN}
       >
         <Source id="covid19" type="geojson" data={geojson}>
-          <Layer {...layerStyle} />
+          <Layer {...dataLayer} />
+          <Layer {...dataCasesLayer} />
         </Source>
+        <GeolocateControl style={geolocateStyle} />
+        <FullscreenControl style={fullscreenControlStyle} />
+        <NavigationControl style={navStyle} />
+        <ScaleControl style={scaleControlStyle} />
       </MapGL>
     </>
   );
