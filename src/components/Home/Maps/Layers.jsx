@@ -1,43 +1,46 @@
-export const clusterLayer = {
-  id: "clusters",
+export const dataLayer = {
   type: "circle",
-  source: "earthquakes",
-  filter: ["has", "point_count"],
   paint: {
+    "circle-radius": {
+      property: "cases",
+      stops: [
+        [{ zoom: 0, value: 0 }, 0],
+        [{ zoom: 0, value: 1000000 }, 7],
+        [{ zoom: 3, value: 0 }, 5],
+        [{ zoom: 3, value: 5000 }, 10],
+        [{ zoom: 3, value: 10000 }, 15],
+        [{ zoom: 3, value: 25000 }, 20],
+        [{ zoom: 3, value: 50000 }, 22],
+        [{ zoom: 3, value: 100000 }, 30],
+        [{ zoom: 20, value: 5 }, 20],
+      ],
+    },
     "circle-color": [
       "step",
-      ["get", "point_count"],
-      "#51bbd6",
-      100,
-      "#f1f075",
-      750,
-      "#f28cb1",
+      ["get", "cases"],
+      "#3288bd",
+      5000,
+      "#66c2a5",
+      10000,
+      "#abdda4",
+      25000,
+      "#e6f598",
+      50000,
+      "#ffffbf",
+      100000,
+      "#d53e4f",
     ],
-    "circle-radius": ["step", ["get", "point_count"], 20, 100, 30, 750, 40],
+    "circle-opacity": 0.6,
   },
 };
-
-export const clusterCountLayer = {
-  id: "cluster-count",
+export const dataCasesLayer = {
+  id: "cases",
   type: "symbol",
-  source: "earthquakes",
-  filter: ["has", "point_count"],
+  source: "covid19",
+  filter: ["has", "cases"],
   layout: {
-    "text-field": "{point_count_abbreviated}",
+    "text-field": "{cases}",
     "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
     "text-size": 12,
-  },
-};
-
-export const unclusteredPointLayer = {
-  id: "unclustered-point",
-  type: "circle",
-  source: "earthquakes",
-  filter: ["!", ["has", "point_count"]],
-  paint: {
-    "circle-color": "#11b4da",
-    "circle-radius": 4,
-    "circle-stroke-width": 1,
-    "circle-stroke-color": "#fff",
   },
 };
