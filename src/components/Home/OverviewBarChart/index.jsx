@@ -26,27 +26,40 @@ function OverviewBarChart(props) {
     <>
       {cases && (
         <>
-          <Typography style={{ textAlign: "center" }}>
-            <Typography.Text>Globally, as of </Typography.Text>
-            <Typography.Text mark>
-              {`${new Date().toLocaleTimeString()} ${new Date().toDateString()}`}
+          <Typography className="overview__text">
+            Globally, as of
+            <Typography.Text
+              type="secondary"
+              className="overview__text__emphasize"
+            >
+              {` ${new Date().toLocaleTimeString()} ${new Date().toDateString()}`}
             </Typography.Text>
             , there have been
-            <Typography.Text type="warning">{` ${numCases(
-              cases
-            )} confirmed cases  `}</Typography.Text>
+            <Typography.Text
+              type="warning"
+              className="overview__text__emphasize"
+            >{` ${numCases(cases)} confirmed cases  `}</Typography.Text>
             of COVID-19, including{" "}
-            <Typography.Text type="danger">{` ${numCases(
-              deaths
-            )} deaths, `}</Typography.Text>
+            <Typography.Text
+              type="danger"
+              className="overview__text__emphasize"
+            >{` ${numCases(deaths)} deaths, `}</Typography.Text>
             {`reported to WHO. As of 19 July 2021, a total of `}
-            <Typography.Text type="success">
+            <Typography.Text
+              type="success"
+              className="overview__text__emphasize"
+            >
               {numCases(recovered)}
             </Typography.Text>
             {` patients has recovered.`}
           </Typography>
           <br />
-          <Row justify="end" gutter={12}>
+          <Row justify="end" gutter={12} align="middle">
+            <Col span={20}>
+              <Typography.Text style={{ fontWeight: "bold", fontSize: "2rem" }}>
+                Global Situation
+              </Typography.Text>
+            </Col>
             <Col>
               <Tooltip title="Daily Change">
                 <Button
@@ -62,18 +75,8 @@ function OverviewBarChart(props) {
               </Tooltip>
             </Col>
             <Col>
-              <Button
-                style={{ verticalAlign: "middle" }}
-                onClick={() => setSort(1)}
-              >
-                Daily
-              </Button>
-              <Button
-                style={{ verticalAlign: "middle" }}
-                onClick={() => setSort(7)}
-              >
-                Weekly
-              </Button>
+              <Button onClick={() => setSort(1)}>Daily</Button>
+              <Button onClick={() => setSort(7)}>Weekly</Button>
             </Col>
           </Row>
 
