@@ -14,7 +14,7 @@ function BarChart(props) {
       : null;
   });
   const config = {
-    aspectRatio: window.innerWidth < 576 ? 1 : 3,
+    aspectRatio: window.innerWidth < 576 ? 1 : 4,
     scales: {
       x: {
         grid: {
@@ -40,10 +40,12 @@ function BarChart(props) {
         position: "right",
         ticks: {
           color: "black",
-          callback: function (val) {
-            return val > 999999
-              ? Math.floor(val / 1000000) + "M"
-              : Math.floor(val / 1000) + "K";
+          callback: function (val, index) {
+            return index % 2 === 0
+              ? val > 999999
+                ? Math.floor(val / 1000000) + "M"
+                : Math.floor(val / 1000) + "K"
+              : null;
           },
         },
       },
