@@ -54,7 +54,6 @@ export default function Maps() {
       .get("https://disease.sh/v3/covid-19/countries")
       .then((res) => setCountries(res.data))
       .catch((e) => console.log(e));
-    console.log("re-render");
   }, []);
   const geojson = {
     type: "FeatureCollection",
