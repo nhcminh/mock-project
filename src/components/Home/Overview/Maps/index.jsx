@@ -10,7 +10,7 @@ import MapGL, {
   ScaleControl,
 } from "react-map-gl";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCountries } from "../../../redux/slices/countriesSlice";
+import { fetchCountries } from "../../../../redux/slices/countriesSlice";
 
 import { dataLayer, dataCasesLayer } from "./Layers";
 
@@ -55,7 +55,7 @@ export default function Maps() {
   }, [dispatch]);
   const geojson = {
     type: "FeatureCollection",
-    features: countries.map((country) => {
+    features: countries?.map((country) => {
       return {
         type: "Feature",
         properties: {

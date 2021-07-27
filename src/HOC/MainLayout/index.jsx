@@ -1,10 +1,12 @@
 import { BulbOutlined, BulbTwoTone } from "@ant-design/icons";
 import { Col, Layout, Menu, Row, Switch } from "antd";
-import Search from "antd/lib/input/Search";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { NewsViewActions } from "../../redux/slices/newsView";
 
 function MainLayout(props) {
   const [theme, setTheme] = useState("light");
+  const dispatch = useDispatch();
   return (
     <Layout>
       <Layout.Header
@@ -18,19 +20,35 @@ function MainLayout(props) {
             <Menu
               theme={theme}
               mode="horizontal"
+              defaultSelectedKeys="overview"
+              triggerSubMenuAction="click"
               style={{ transition: "linear 0.3s" }}
             >
-              <Menu.Item key="overviews">Overview</Menu.Item>
-              <Menu.Item key="dataTable">Data Table</Menu.Item>
-              <Menu.Item key="otherNews">Other News</Menu.Item>
+              <Menu.Item
+                key="overview"
+                onClick={() => {
+                  dispatch(NewsViewActions.changeView("overview"));
+                }}
+              >
+                Overview
+              </Menu.Item>
+              <Menu.Item
+                key="dataTable"
+                onClick={() => {
+                  dispatch(NewsViewActions.changeView("dataTable"));
+                }}
+              >
+                Data Table
+              </Menu.Item>
+              <Menu.Item
+                key="otherNews"
+                onClick={() => {
+                  dispatch(NewsViewActions.changeView("otherNews"));
+                }}
+              >
+                Other News
+              </Menu.Item>
             </Menu>
-          </Col>
-          <Col xs={{ span: 12 }}>
-            <Search
-              placeholder="Search"
-              // onSearch={onSearch}
-              style={{ verticalAlign: "middle" }}
-            />
           </Col>
           <Col>
             <Switch
