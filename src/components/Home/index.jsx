@@ -1,12 +1,16 @@
 import React from "react";
 import MainLayout from "../../HOC/MainLayout";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Maps from "./Maps";
+import Overview from "./Overview";
+import { useSelector } from "react-redux";
+import DataTable from "./DataTable";
 
 function Home(props) {
+  const view = useSelector((state) => state.NewsViewReducer.view);
   return (
     <MainLayout>
-      <Maps />
+      {view === "overview" && <Overview />}
+      {view === "dataTable" && <DataTable />}
     </MainLayout>
   );
 }

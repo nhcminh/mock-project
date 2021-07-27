@@ -1,4 +1,3 @@
-import axios from "axios";
 import * as React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -10,6 +9,8 @@ import MapGL, {
   NavigationControl,
   ScaleControl,
 } from "react-map-gl";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCountries } from "../../../../redux/slices/countriesSlice";
 
 import { dataLayer, dataCasesLayer } from "./Layers";
 
@@ -47,18 +48,14 @@ export default function Maps() {
     bearing: 0,
     pitch: 0,
   });
-  const [countries, setCountries] = useState([]);
-
+  const countries = useSelector((state) => state.CountriesReducer.countries);
+  const dispatch = useDispatch();
   useEffect(() => {
-    axios
-      .get("https://disease.sh/v3/covid-19/countries")
-      .then((res) => setCountries(res.data))
-      .catch((e) => console.log(e));
-    console.log("re-render");
-  }, []);
+    dispatch(fetchCountries());
+  }, [dispatch]);
   const geojson = {
     type: "FeatureCollection",
-    features: countries.map((country) => {
+    features: countries?.map((country) => {
       return {
         type: "Feature",
         properties: {
