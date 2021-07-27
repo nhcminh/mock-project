@@ -1,19 +1,16 @@
 import React from "react";
 import MainLayout from "../../HOC/MainLayout";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Maps from "./Maps";
-import OverviewBarChart from "./OverviewBarChart";
-import { Col, Row } from "antd";
+import Overview from "./Overview";
+import { useSelector } from "react-redux";
+import DataTable from "./DataTable";
 
 function Home(props) {
+  const view = useSelector((state) => state.NewsViewReducer.view);
   return (
     <MainLayout>
-      <Maps />
-      <Row justify="center">
-        <Col span={22}>
-          <OverviewBarChart />
-        </Col>
-      </Row>
+      {view === "overview" && <Overview />}
+      {view === "dataTable" && <DataTable />}
     </MainLayout>
   );
 }

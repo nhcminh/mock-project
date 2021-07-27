@@ -2,7 +2,7 @@ import { RiseOutlined, StockOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Tooltip, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import BarChart from "../../../HOC/BarChart";
+import BarChart from "../../../../HOC/BarChart";
 function OverviewBarChart(props) {
   const [data, setData] = useState({});
   const [sort, setSort] = useState(7);
@@ -54,8 +54,8 @@ function OverviewBarChart(props) {
             {` patients has recovered.`}
           </Typography>
           <br />
-          <Row justify="end" gutter={12} align="middle">
-            <Col span={20}>
+          <Row justify="space-between" gutter={12} align="middle">
+            <Col>
               <Typography.Text style={{ fontWeight: "bold", fontSize: "2rem" }}>
                 Global Situation
               </Typography.Text>
@@ -73,10 +73,18 @@ function OverviewBarChart(props) {
                   onClick={() => setChange("cucumlative")}
                 ></Button>
               </Tooltip>
-            </Col>
-            <Col>
-              <Button onClick={() => setSort(1)}>Daily</Button>
-              <Button onClick={() => setSort(7)}>Weekly</Button>
+              <Button
+                style={{ verticalAlign: "middle" }}
+                onClick={() => setSort(1)}
+              >
+                Daily
+              </Button>
+              <Button
+                style={{ verticalAlign: "middle" }}
+                onClick={() => setSort(7)}
+              >
+                Weekly
+              </Button>
             </Col>
           </Row>
 
