@@ -1,84 +1,55 @@
-import { BulbOutlined, BulbTwoTone } from "@ant-design/icons";
-import { Col, Layout, Menu, Row, Switch } from "antd";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { Col, Layout, Menu, Row } from "antd";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { NewsViewActions } from "../../redux/slices/newsView";
-
+import SearchBar from "../../components/SearchBar";
+import SettingMenu from "../../components/SettingMenu";
 function MainLayout(props) {
-  const [theme, setTheme] = useState("light");
-  const dispatch = useDispatch();
   const history = useHistory();
+
   return (
-    <Layout>
+    <Layout style={{ minHeight: "92vh" }}>
       <Layout.Header
         style={{
-          background: theme === "light" ? "#fff" : "#001529",
+          background: "#fff",
           transition: "linear 0.3s",
         }}
       >
         <Row justify="space-between" align="middle">
           <Col xs={{ span: 5 }}>
             <Menu
-              theme={theme}
+              theme={"light"}
               mode="horizontal"
-              defaultSelectedKeys={"overview"}
+              defaultSelectedKeys={history.location.pathname.split("/")[1]}
               triggerSubMenuAction="click"
               style={{ transition: "linear 0.3s" }}
             >
               <Menu.Item
-                key="overview"
+                key="home"
                 onClick={() => {
-                  dispatch(NewsViewActions.changeView("overview"));
-                  history.push("/news");
+                  history.push("/home");
                 }}
               >
-                Overview
+                Home
               </Menu.Item>
               <Menu.Item
-                key="dataTable"
+                key="news"
                 onClick={() => {
-                  dispatch(NewsViewActions.changeView("dataTable"));
                   history.push("/news");
                 }}
               >
-                Data Table
-              </Menu.Item>
-              <Menu.Item
-                key="otherNews"
-                onClick={() => {
-                  dispatch(NewsViewActions.changeView("otherNews"));
-                  history.push("/news");
-                }}
-              >
-                Other News
+                News
               </Menu.Item>
             </Menu>
           </Col>
-          <Col>
-            <Switch
-              checkedChildren={<BulbTwoTone twoToneColor="#FAFF00" />}
-              unCheckedChildren={<BulbOutlined />}
-              defaultChecked
-              onChange={() =>
-                theme === "light" ? setTheme("dark") : setTheme("light")
-              }
-            />
+          <Col lg={{ span: 8 }}>
+            <SearchBar />
+          </Col>
+          <Col lg={{ span: 1 }}>
+            <SettingMenu />
           </Col>
         </Row>
       </Layout.Header>
-      <Layout.Content
-        style={
-          theme === "light"
-            ? {
-                backgroundColor: "#fff",
-                color: "#000",
-                transition: "linear 0.3s",
-                minHeight: "100vh",
-              }
-            : { backgroundColor: "#001529", color: "#fff", minHeight: "100vh" }
-        }
-      >
+      <Layout.Content style={{ background: "fff" }}>
         {props.children}
       </Layout.Content>
     </Layout>

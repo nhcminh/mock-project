@@ -2,6 +2,7 @@ import { RiseOutlined, StockOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Tooltip } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
+import { useCallback } from "react";
 import { useEffect } from "react";
 import BarChart from "../../../../HOC/BarChart";
 function OverviewBarChart(props) {
@@ -14,18 +15,23 @@ function OverviewBarChart(props) {
       .catch((e) => console.log(e));
   }, []);
   const { cases, deaths, recovered } = data;
-  const calculateDailyChange = (object) => {
+  const calculateDailyChange = useCallback((object) => {
     const data = Object.values(object);
     data.pop();
     return data.map((item, index) => {
       return index > 0 ? item - data[index - 1] : item;
     });
-  };
+  }, []);
   return (
     <>
       {cases && (
         <>
-          <Row justify="end" gutter={12} align="middle">
+          <Row
+            justify="end"
+            gutter={12}
+            align="middle"
+            style={{ marginTop: "1rem" }}
+          >
             <Col>
               <Tooltip title="Daily Change">
                 <Button
