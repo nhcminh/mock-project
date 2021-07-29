@@ -45,13 +45,13 @@ function DataTable(props) {
       clearTimeout();
     };
   }, [filter, getTodayData, getYesterdayData]);
-  const handleSearchValueChange = (value) => {
+  const handleSearchValueChange = useCallback((value) => {
     value ? setSearchValue(value.value) : setSearchValue("");
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 500);
-  };
+  }, []);
   return (
     <Row justify="center">
       <Col span={23}>

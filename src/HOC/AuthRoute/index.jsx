@@ -12,7 +12,7 @@ function AuthRoute({ component: Component, ...rest }) {
         return checkToken() === null ? (
           <Component {...props} {...rest} />
         ) : (
-          <Redirect to={{ pathname: "/news" }} />
+          <Redirect to={{ pathname: "/home" }} />
         );
       }}
     />
