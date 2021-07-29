@@ -6,13 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Select from "react-select";
 import {
-  fetchContinentsTodayData,
   fetchCountriesTodayData,
   fetchGlobalTodayData,
   TodayDataActions,
 } from "../../../redux/slices/todayData";
 import {
-  fetchContinentsYesterdayData,
   fetchCountriesYesterdayData,
   fetchGlobalYesterdayData,
   YesterdayDataActions,
@@ -31,13 +29,11 @@ function DataTable(props) {
   const getTodayData = useCallback(() => {
     dispatch(TodayDataActions.resetData());
     dispatch(fetchGlobalTodayData());
-    dispatch(fetchContinentsTodayData());
     dispatch(fetchCountriesTodayData());
   }, [dispatch]);
   const getYesterdayData = useCallback(() => {
     dispatch(YesterdayDataActions.resetData());
     dispatch(fetchGlobalYesterdayData());
-    dispatch(fetchContinentsYesterdayData());
     dispatch(fetchCountriesYesterdayData());
   }, [dispatch]);
   useEffect(() => {
@@ -113,7 +109,7 @@ function DataTable(props) {
                   {info?.flag && (
                     <img width="30px" src={info?.flag} alt={info.name} />
                   )}{" "}
-                  <Link to={`/detail/${info.name}`}>{info.name}</Link>{" "}
+                  <Link to={`/details/${info.name}`}>{info.name}</Link>{" "}
                 </>
               )}
               fixed="left"

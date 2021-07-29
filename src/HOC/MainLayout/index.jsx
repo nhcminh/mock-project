@@ -2,11 +2,13 @@ import { BulbOutlined, BulbTwoTone } from "@ant-design/icons";
 import { Col, Layout, Menu, Row, Switch } from "antd";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { NewsViewActions } from "../../redux/slices/newsView";
 
 function MainLayout(props) {
   const [theme, setTheme] = useState("light");
   const dispatch = useDispatch();
+  const history = useHistory();
   return (
     <Layout>
       <Layout.Header
@@ -20,7 +22,7 @@ function MainLayout(props) {
             <Menu
               theme={theme}
               mode="horizontal"
-              defaultSelectedKeys="overview"
+              defaultSelectedKeys={"overview"}
               triggerSubMenuAction="click"
               style={{ transition: "linear 0.3s" }}
             >
@@ -28,6 +30,7 @@ function MainLayout(props) {
                 key="overview"
                 onClick={() => {
                   dispatch(NewsViewActions.changeView("overview"));
+                  history.push("/news");
                 }}
               >
                 Overview
@@ -36,6 +39,7 @@ function MainLayout(props) {
                 key="dataTable"
                 onClick={() => {
                   dispatch(NewsViewActions.changeView("dataTable"));
+                  history.push("/news");
                 }}
               >
                 Data Table
@@ -44,6 +48,7 @@ function MainLayout(props) {
                 key="otherNews"
                 onClick={() => {
                   dispatch(NewsViewActions.changeView("otherNews"));
+                  history.push("/news");
                 }}
               >
                 Other News

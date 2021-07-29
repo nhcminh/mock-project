@@ -1,111 +1,94 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
+import HighStock from "highcharts/highstock";
+import HighchartsReact from "highcharts-react-official";
 
+HighStock.setOptions({
+  lang: {
+    rangeSelectorZoom: "Filter by",
+    rangeSelectorFrom: "From",
+    rangeSelectorTo: "To",
+  },
+});
 function BarChart(props) {
-  const { data, sort, numCases, label, change } = props;
-  const labels = Object.keys(data).map((data, index) => {
-    return data;
-  });
-  const valuesOfData = Object.values(data).map((item, index) => {
-    return change === "cucumlative"
-      ? item
-      : index % sort === 0
-      ? item - Object.values(data)[index - sort]
-      : null;
-  });
-  const config = {
-    aspectRatio: window.innerWidth < 576 ? 1 : 4,
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          callback: function (val, index) {
-            return index % 16 === 0
-              ? new Date(this.getLabelForValue(val)).toLocaleString("default", {
-                  month: "short",
-                  year: "numeric",
-                })
-              : "";
-          },
-          color: "black",
-        },
+  const { title, data } = props;
+  const options = {
+    chart: {
+      height: 500,
+    },
+    rangeSelector: {
+      selected: 5,
+      inputBoxBorderColor: "gray",
+      inputBoxWidth: 110,
+      inputBoxHeight: 18,
+      inputStyle: {
+        color: "#039",
+        fontWeight: "bold",
       },
-      y: {
-        grid: {
-          display: false,
-        },
-        beginAtZero: true,
-        position: "right",
-        ticks: {
-          color: "black",
-          callback: function (val, index) {
-            return index % 2 === 0
-              ? val > 999999
-                ? Math.floor(val / 1000000) + "M"
-                : Math.floor(val / 1000) + "K"
-              : null;
-          },
-        },
+      labelStyle: {
+        color: "silver",
+        fontWeight: "bold",
       },
     },
-    plugins: {
-      legend: {
-        display: true,
-        align: "middle",
-        // position: "left",
-        labels: {
-          boxWidth: 0,
-          font: {
-            size: 10,
-          },
-          color: "black",
-        },
-        title: {
-          display: true,
-          color: "black",
-          text: numCases,
-          font: {
-            size: 30,
-          },
-        },
+    title: {
+      text: title + " Situation",
+      style: {
+        fontSize: "25px",
       },
-      tooltip: {
-        callbacks: {
-          footer: (tooltipItems) => {
-            const { dataIndex, raw, dataset } = tooltipItems[0];
-            const sum = raw - dataset.data[dataIndex - sort];
-            const raito = (sum / raw) * 100;
-            const filter = sort > 1 ? "Weekly" : "Daily";
-            const type = sum > 0 ? "Increase" : " Decrease";
-            return `${filter} ${type}: ${sum.toLocaleString()}
-${filter} Change: ${raito.toLocaleString()}%`;
+    },
+    yAxis: {
+      title: {
+        text: "Number of Cases",
+      },
+    },
+    xAxis: {
+      type: "datetime",
+    },
+    scrollbar: {
+      enabled: false,
+    },
+    legend: {
+      enabled: true,
+      layout: "vertical",
+      align: "top",
+      verticalAlign: "middle",
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+        },
+        pointStart: Date.UTC(2020, 0, 22),
+        pointInterval: 24 * 3600 * 1000, // one day
+      },
+    },
+    series: data,
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500,
+          },
+          chartOptions: {
+            legend: {
+              layout: "horizontal",
+              align: "center",
+              verticalAlign: "bottom",
+            },
           },
         },
-      },
+      ],
+    },
+    credits: {
+      enabled: false,
     },
   };
+
   return (
     <>
-      <Bar
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              label: label,
-              backgroundColor: "#afadad",
-              hoverBackgroundColor: "#0093d5",
-              data: valuesOfData,
-              barPercentage: 1.0,
-              categoryPercentage: 1.0,
-              barThickness: sort > 1 ? 7 : 2,
-            },
-          ],
-        }}
-        width="350px"
-        height="100px"
-        options={config}
+      <HighchartsReact
+        highcharts={HighStock}
+        constructorType={"stockChart"}
+        options={options}
       />
     </>
   );
