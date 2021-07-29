@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  getContinentsYesterdayData,
   getCountriesYesterdayData,
   getGlobalYesterdayData,
 } from "../../components/API/AxiosClient";
@@ -15,13 +14,7 @@ export const fetchGlobalYesterdayData = createAsyncThunk(
     return res.data;
   }
 );
-export const fetchContinentsYesterdayData = createAsyncThunk(
-  "fetchContinentsYesterday",
-  async () => {
-    const res = await getContinentsYesterdayData();
-    return res.data;
-  }
-);
+
 export const fetchCountriesYesterdayData = createAsyncThunk(
   "fetchCountriesYesterday",
   async () => {
@@ -52,22 +45,7 @@ const YesterdayData = createSlice({
         todayDeaths,
       });
     });
-    builder.addCase(fetchContinentsYesterdayData.fulfilled, (state, action) => {
-      action.payload.forEach((item) => {
-        const { continent, cases, deaths, todayCases, todayDeaths } = item;
-        state.yesterday.push({
-          key: new Date().getTime() + continent,
-          info: {
-            name: continent,
-            flag: "",
-          },
-          cases,
-          deaths,
-          todayCases,
-          todayDeaths,
-        });
-      });
-    });
+
     builder.addCase(fetchCountriesYesterdayData.fulfilled, (state, action) => {
       action.payload.forEach((item) => {
         const { country, countryInfo, cases, deaths, todayCases, todayDeaths } =

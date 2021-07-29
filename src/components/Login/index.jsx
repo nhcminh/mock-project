@@ -1,21 +1,28 @@
 import { Form, Input, Button, Row, Col, Typography, Alert } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Layout from "antd/lib/layout/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
-const Login = () => {
+const Login = (props) => {
+  const { onLoadingCb } = props;
   const [isError, setIsError] = useState(false);
   const history = useHistory();
   const onFinish = (values) => {
-    if(values.email === 'admin@admin.com' && values.password === 'admin'){
-      history.push('./');
-      localStorage.setItem('isLogin', true)
-      return;
-    }
-    setIsError(true)
+    onLoadingCb();
+    setTimeout(() => {
+      if (values.email === "admin@admin.com" && values.password === "admin") {
+        history.push("./");
+        localStorage.setItem("isLogin", true);
+        return;
+      }
+      setIsError(true);
+    }, 1500);
   };
-
+  useEffect(() => {
+    onLoadingCb();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Layout
       style={{

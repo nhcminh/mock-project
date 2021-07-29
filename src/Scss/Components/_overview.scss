@@ -6,3 +6,13 @@
         font-size: 1.5rem;
     }
 }
+.f32 {
+    vertical-align: bottom;
+    .flag {
+        display: inline-block;
+        height: 24px;
+        width: 32px;
+        vertical-align: text-top;
+        line-height: 32px;
+    }
+}
