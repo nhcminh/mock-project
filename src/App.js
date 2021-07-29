@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import Details from "./components/Details";
 import News from "./components/News";
+import SignUp from "./components/SignUp";
 import "antd/dist/antd.css";
 import "./Scss/style.scss";
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/home" exact component={Home} />
             <PrivateRoute path="/details/:name" exact component={Details} />
             <AuthRoute path="/login" exact component={Login} />
+            <AuthRoute path="/signup" exact component={SignUp} />
             <Route component={PageNotFound} />
           </Switch>
         </MainLayout>

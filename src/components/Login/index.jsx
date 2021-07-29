@@ -2,7 +2,7 @@ import { Form, Input, Button, Row, Col, Typography, Alert } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Layout from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import LoadingSpinner from "../../HOC/LoadingSpinner";
 import { useCallback } from "react";
 
@@ -12,8 +12,17 @@ const Login = (props) => {
   const history = useHistory();
   const onFinish = useCallback(
     (values) => {
+      const accountList = JSON.parse(localStorage.getItem("ac"));
+      const account = accountList.find((item) => item.email === values.email);
       setTimeout(() => {
-        if (values.email === "admin@admin.com" && values.password === "admin") {
+        if (!account) {
+          setIsError(false);
+          return;
+        }
+        if (
+          values.email === account.email &&
+          values.password === account.password
+        ) {
           history.push("/home");
           localStorage.setItem("isLogin", true);
           return;
@@ -85,10 +94,12 @@ const Login = (props) => {
                   placeholder="Password"
                 />
               </Form.Item>
+
               <Form.Item>
                 <Button type="primary" htmlType="submit" block>
                   Log in
                 </Button>
+                Or <Link to="/signup">Create an acoount</Link>
               </Form.Item>
             </Form>
           </Col>
