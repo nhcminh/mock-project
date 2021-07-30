@@ -16,3 +16,14 @@ export const getCountriesLastestData = () => {
 export const getCountriesYesterdayData = () => {
   return axios.get(domain + "/countries?yesterday=true");
 };
+
+export const getNews = () => {
+  return axios.get(domain + "/therapeutics");
+};
+
+export const getHistorical = (area) => {
+  return axios.get(domain + `/historical/${area}?lastdays=all`);
+};
+export const getAllCountries = () => {
+  return axios.get(domain + "/countries");
+};
