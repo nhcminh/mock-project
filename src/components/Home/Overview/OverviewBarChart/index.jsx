@@ -1,16 +1,15 @@
 import { RiseOutlined, StockOutlined } from "@ant-design/icons";
 import { Button, Col, Row, Tooltip } from "antd";
-import axios from "axios";
 import React, { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import BarChart from "../../../../HOC/BarChart";
+import { getHistorical } from "../../../API/AxiosClient";
 function OverviewBarChart(props) {
   const [data, setData] = useState({});
   const [change, setChange] = useState("daily");
   useEffect(() => {
-    axios
-      .get("https://disease.sh/v3/covid-19/historical/all?lastdays=all")
+    getHistorical("all")
       .then((res) => setData(res.data))
       .catch((e) => console.log(e));
   }, []);
