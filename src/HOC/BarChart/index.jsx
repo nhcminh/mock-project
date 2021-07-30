@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import HighStock from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 
@@ -11,6 +11,14 @@ HighStock.setOptions({
 });
 function BarChart(props) {
   const { title, data } = props;
+  const chart = useRef();
+  useEffect(() => {
+    const chartObj = chart.current.chart;
+    chartObj.showLoading();
+    if (data) {
+      chartObj.hideLoading();
+    }
+  }, [data]);
   const options = useMemo(() => {
     return {
       chart: {
@@ -91,6 +99,7 @@ function BarChart(props) {
         highcharts={HighStock}
         constructorType={"stockChart"}
         options={options}
+        ref={chart}
       />
     </>
   );

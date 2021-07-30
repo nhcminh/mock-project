@@ -1,20 +1,22 @@
-import * as React from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import map from "highcharts/modules/map";
 import world from "@highcharts/map-collection/custom/world.geo.json";
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-import { useMemo } from "react";
+import { getAllCountries } from "../../../API/AxiosClient";
 map(Highcharts);
 
 export default function Maps(props) {
   const [countries, setCountries] = useState([]);
+  const chart = useRef();
   useEffect(() => {
-    axios
-      .get("https://disease.sh/v3/covid-19/countries")
-      .then((res) => setCountries(res.data))
+    const chartObj = chart.current.chart;
+    chartObj.showLoading();
+    getAllCountries()
+      .then((res) => {
+        setCountries(res.data);
+        chartObj.hideLoading();
+      })
       .catch((e) => console.log(e));
   }, []);
   const options = useMemo(() => {
@@ -25,6 +27,10 @@ export default function Maps(props) {
         animation: {
           duration: 500,
         },
+      },
+      loading: {
+        hideDuration: 1000,
+        showDuration: 1000,
       },
       colors: [
         "rgba(19,64,117,0.05)",
@@ -158,6 +164,7 @@ export default function Maps(props) {
         highcharts={Highcharts}
         constructorType="mapChart"
         options={options}
+        ref={chart}
       />
     </>
   );
