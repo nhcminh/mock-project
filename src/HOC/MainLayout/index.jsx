@@ -41,7 +41,7 @@ function MainLayout(props) {
               </Menu.Item>
             </Menu>
           </Col>
-          <Col lg={{ span: 8 }}>
+          <Col lg={{ span: 8 }} xs={{ span: 12 }}>
             <SearchBar />
           </Col>
           <Col lg={{ span: 1 }}>

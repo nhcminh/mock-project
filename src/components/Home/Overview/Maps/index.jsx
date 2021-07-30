@@ -1,21 +1,26 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import map from "highcharts/modules/map";
 import world from "@highcharts/map-collection/custom/world.geo.json";
 import { getAllCountries } from "../../../API/AxiosClient";
+import { Spin } from "antd";
 map(Highcharts);
 
-export default function Maps(props) {
+function Maps(props) {
   const [countries, setCountries] = useState([]);
-  const chart = useRef();
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    const chartObj = chart.current.chart;
-    chartObj.showLoading();
     getAllCountries()
       .then((res) => {
-        setCountries(res.data);
-        chartObj.hideLoading();
+        setCountries(
+          res.data.map((country) => [
+            country.countryInfo.iso3,
+            country.active,
+            country.countryInfo.flag,
+          ])
+        );
+        setIsLoading(false);
       })
       .catch((e) => console.log(e));
   }, []);
@@ -119,11 +124,7 @@ export default function Maps(props) {
       },
       series: [
         {
-          data: countries.map((country) => [
-            country.countryInfo.iso3,
-            country.active,
-            country.countryInfo.flag,
-          ]),
+          data: countries,
           keys: ["iso-a3", "value", "flag"],
           joinBy: "iso-a3",
           name: "Active cases",
@@ -160,12 +161,14 @@ export default function Maps(props) {
   }, [countries]);
   return (
     <>
-      <HighchartsReact
-        highcharts={Highcharts}
-        constructorType="mapChart"
-        options={options}
-        ref={chart}
-      />
+      <Spin spinning={isLoading}>
+        <HighchartsReact
+          highcharts={Highcharts}
+          constructorType="mapChart"
+          options={options}
+        />
+      </Spin>
     </>
   );
 }
+export default React.memo(Maps);
