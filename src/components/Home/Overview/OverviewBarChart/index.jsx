@@ -1,5 +1,5 @@
 import { RiseOutlined, StockOutlined } from "@ant-design/icons";
-import { Button, Col, Row, Tooltip } from "antd";
+import { Button, Card, Col, Row, Tooltip, Typography } from "antd";
 import React, { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
@@ -25,6 +25,56 @@ function OverviewBarChart(props) {
     <>
       {cases && (
         <>
+          <Row gutter={8} style={{ marginTop: "1rem" }}>
+            <Col xs={{ span: 24 }} md={{ span: 8 }}>
+              <Card
+                title="Total Active Cases"
+                headStyle={{ textAlign: "center", textTransform: "uppercase" }}
+              >
+                <Typography.Paragraph
+                  style={{
+                    textAlign: "center",
+                    fontSize: "1.5rem",
+                    color: "#FB9300",
+                  }}
+                >
+                  {Object.values(cases).pop().toLocaleString()}
+                </Typography.Paragraph>
+              </Card>
+            </Col>
+            <Col xs={{ span: 24 }} md={{ span: 8 }}>
+              <Card
+                title="Total Death Cases"
+                headStyle={{ textAlign: "center", textTransform: "uppercase" }}
+              >
+                <Typography.Paragraph
+                  style={{
+                    textAlign: "center",
+                    fontSize: "1.5rem",
+                    color: "#FF4C29",
+                  }}
+                >
+                  {Object.values(deaths).pop().toLocaleString()}
+                </Typography.Paragraph>
+              </Card>
+            </Col>
+            <Col xs={{ span: 24 }} md={{ span: 8 }}>
+              <Card
+                title="Total Recovered Cases"
+                headStyle={{ textAlign: "center", textTransform: "uppercase" }}
+              >
+                <Typography.Paragraph
+                  style={{
+                    textAlign: "center",
+                    fontSize: "1.5rem",
+                    color: "#66DE93",
+                  }}
+                >
+                  {Object.values(recovered).pop().toLocaleString()}
+                </Typography.Paragraph>
+              </Card>
+            </Col>
+          </Row>
           <Row
             justify="end"
             gutter={12}

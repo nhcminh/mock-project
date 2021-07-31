@@ -28,14 +28,7 @@ function Maps(props) {
     return {
       chart: {
         map: world,
-        height: 500,
-        animation: {
-          duration: 500,
-        },
-      },
-      loading: {
-        hideDuration: 1000,
-        showDuration: 1000,
+        animation: true,
       },
       colors: [
         "rgba(19,64,117,0.05)",
@@ -55,7 +48,6 @@ function Maps(props) {
           align: "left",
           x: 10,
         },
-        enableDoubleClickZoomTo: true,
       },
       tooltip: {
         borderWidth: 1,

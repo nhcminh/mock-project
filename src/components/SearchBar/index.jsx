@@ -25,7 +25,7 @@ function SearchBar(props) {
             menu: (provided) => ({ ...provided, zIndex: 9999 }),
           }}
           options={searchData.map((item) => {
-            return { value: item.countryInfo.iso3, label: item.country };
+            return { value: item.countryInfo.iso2, label: item.country };
           })}
           className="basic-multi-select"
           classNamePrefix="select"

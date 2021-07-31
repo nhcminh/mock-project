@@ -53,7 +53,7 @@ function DataTable(props) {
     }, 500);
   }, []);
   return (
-    <Row justify="center">
+    <Row justify="center" style={{ marginBottom: "1rem" }}>
       <Col span={23}>
         <Row
           justify="end"
@@ -108,8 +108,8 @@ function DataTable(props) {
                 <>
                   {info?.flag && (
                     <img width="30px" src={info?.flag} alt={info.name} />
-                  )}{" "}
-                  <Link to={`/details/${info.name}`}>{info.name}</Link>{" "}
+                  )}
+                  <Link to={`/details/${info.iso2}`}>{info.name}</Link>
                 </>
               )}
               fixed="left"
