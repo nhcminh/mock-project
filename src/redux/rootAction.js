@@ -1,4 +1,4 @@
-import { NewsViewActions } from "./slices/newsView";
+import { SelectedNewsActions } from "./slices/selectedNews";
 import { TodayDataActions } from "./slices/todayData";
 import { YesterdayDataActions } from "./slices/yesterdatData";
-export { NewsViewActions, TodayDataActions, YesterdayDataActions };
+export { SelectedNewsActions, TodayDataActions, YesterdayDataActions };
