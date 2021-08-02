@@ -67,6 +67,20 @@ function DataTable(props) {
               name="colors"
               styles={{
                 menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                option: (styles, { isDisabled, isFocused, isSelected }) => {
+                  return {
+                    ...styles,
+                    backgroundColor: isDisabled
+                      ? null
+                      : isSelected
+                      ? "white"
+                      : isFocused
+                      ? "gainsboro"
+                      : null,
+                    color: isDisabled ? "#ccc" : isSelected ? "white" : "black",
+                    cursor: isDisabled ? "not-allowed" : "default",
+                  };
+                },
               }}
               options={data.map((item) => {
                 return { value: item.info.name, label: item.info.name };
