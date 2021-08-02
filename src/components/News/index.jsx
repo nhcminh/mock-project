@@ -74,7 +74,7 @@ function News(props) {
   return (
     <>
       <Row justify={"center"} style={{ marginTop: "1rem" }}>
-        <Col span={22} style={{ padding: "2rem 0", backgroundColor: "white" }}>
+        <Col span={22} style={{ padding: "2rem 0" }}>
           <Typography.Title style={{ textAlign: "center" }}>
             Covid News
           </Typography.Title>
