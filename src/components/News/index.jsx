@@ -1,35 +1,63 @@
-import { Button, Card, Col, List, Row, Typography } from "antd";
+import { Button, Col, List, Row, Skeleton, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { useCallback } from "react";
 import { useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { getNews } from "../API/AxiosClient";
+import { SelectedNewsActions } from "../../redux/slices/selectedNews";
+import { fetchGlobalYesterdayData } from "../../redux/slices/yesterdatData";
 function News(props) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isInitLoading, setIsInitLoading] = useState(true);
-  const [isLoadMore, setIsLoadMore] = useState(true);
-  const [newsList, setNewsList] = useState({});
+  const [count, setCount] = useState(4);
+  const [newsList, setNewsList] = useState([]);
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const getData = useCallback(
+    (callback) => {
+      getNews(count)
+        .then((res) => {
+          callback(res);
+        })
+        .catch((e) => console.log(e));
+    },
+    [count]
+  );
   useEffect(() => {
-    getNews()
-      .then((res) => {
-        setNewsList(res.data);
-        setData(res.data.data.splice(0, 8));
-        setIsInitLoading(false);
-        setTimeout(setIsLoading(false), 1500);
-      })
-      .catch((e) => console.log(e));
-  }, []);
+    getData((res) => {
+      setIsInitLoading(false);
+      setData(res.data.articles);
+      setNewsList(res.data.articles);
+    });
+  }, [getData]);
   const onLoadMore = useCallback(() => {
-    if (newsList.data.splice(data.length, 8).length < 8) {
-      setIsLoadMore(false);
-    }
-    setData([...data, ...newsList.data.splice(data.length, 8)]);
-  }, [data, newsList.data]);
+    setIsLoading(true);
+    setNewsList(
+      data.concat(
+        [...new Array(count)].map(() => ({
+          loading: true,
+          name: {},
+        }))
+      )
+    );
+    getData((res) => {
+      const newData = data.concat(res.data.articles);
+      setNewsList(newData);
+      setData(newData);
+      setIsLoading(fetchGlobalYesterdayData);
+      setCount(count + 4);
+      // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
+      // In real scene, you can using public method of react-virtualized:
+      // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
+      window.dispatchEvent(new Event("resize"));
+    });
+  }, [count, data, getData]);
+
   const loadMore = useMemo(() => {
-    return !isInitLoading ? (
+    return !isInitLoading && !isLoading ? (
       <div
         style={{
-          display: isLoadMore ? "block" : "none",
           textAlign: "center",
           marginTop: 12,
           height: 32,
@@ -39,43 +67,61 @@ function News(props) {
         <Button onClick={onLoadMore}>loading more</Button>
       </div>
     ) : null;
-  }, [isInitLoading, isLoadMore, onLoadMore]);
-
+  }, [isInitLoading, isLoading, onLoadMore]);
+  const handleNewsSelect = (news) => {
+    dispatch(SelectedNewsActions.changeNews(news));
+  };
   return (
     <>
-      <Row justify={"center"}>
+      <Row justify={"center"} style={{ marginTop: "1rem" }}>
         <Col span={22} style={{ padding: "2rem 0" }}>
+          <Typography.Title style={{ textAlign: "center" }}>
+            Covid News
+          </Typography.Title>
           <List
-            grid={{
-              gutter: 16,
-              xs: 1,
-              sm: 2,
-              md: 4,
-              lg: 4,
-              xl: 4,
-              xxl: 4,
-            }}
-            dataSource={data}
+            dataSource={newsList}
             loadMore={loadMore}
             loading={isInitLoading}
+            itemLayout="vertical"
+            size="large"
             renderItem={(item) => (
-              <List.Item>
-                <Card
-                  title={item.tradeName[0]}
-                  actions={[<span>Read more...</span>]}
-                  loading={isLoading}
-                >
-                  <Typography.Title
-                    level={5}
-                    style={{ width: 200 }}
-                    ellipsis={true}
+              <List.Item
+                actions={[
+                  <Button
+                    onClick={() => {
+                      handleNewsSelect(item);
+                    }}
                   >
-                    Category: {item.medicationClass}
-                  </Typography.Title>
-                  <Typography.Text style={{ width: 200 }} ellipsis={true}>
-                    {item.details}
-                  </Typography.Text>
-                </Card>
+                    Read More
+                  </Button>,
+                ]}
+                extra={<img alt="cover" src={item.urlToImage} width={272} />}
+              >
+                <Skeleton title={false} loading={item.loading} active>
+                  <List.Item.Meta
+                    title={
+                      <Link
+                        to={`/news/${item.id}`}
+                        onClick={() => {
+                          handleNewsSelect(item);
+                        }}
+                      >
+                        {item.title}
+                      </Link>
+                    }
+                    description={
+                      <Typography.Paragraph
+                        style={{ fontStyle: "italic", fontSize: "14px" }}
+                        ellipsis={{ rows: 1 }}
+                      >
+                        {item.description}
+                      </Typography.Paragraph>
+                    }
+                  />
+                  <Typography.Paragraph ellipsis={{ rows: 2 }}>
+                    {item.content.slice(0, 200)}
+                  </Typography.Paragraph>
+                </Skeleton>
               </List.Item>
             )}
           />

@@ -53,7 +53,7 @@ function DataTable(props) {
     }, 500);
   }, []);
   return (
-    <Row justify="center">
+    <Row justify="center" style={{ marginBottom: "1rem" }}>
       <Col span={23}>
         <Row
           justify="end"
@@ -67,6 +67,20 @@ function DataTable(props) {
               name="colors"
               styles={{
                 menu: (provided) => ({ ...provided, zIndex: 9999 }),
+                option: (styles, { isDisabled, isFocused, isSelected }) => {
+                  return {
+                    ...styles,
+                    backgroundColor: isDisabled
+                      ? null
+                      : isSelected
+                      ? "white"
+                      : isFocused
+                      ? "gainsboro"
+                      : null,
+                    color: isDisabled ? "#ccc" : isSelected ? "white" : "black",
+                    cursor: isDisabled ? "not-allowed" : "default",
+                  };
+                },
               }}
               options={data.map((item) => {
                 return { value: item.info.name, label: item.info.name };
@@ -108,8 +122,8 @@ function DataTable(props) {
                 <>
                   {info?.flag && (
                     <img width="30px" src={info?.flag} alt={info.name} />
-                  )}{" "}
-                  <Link to={`/details/${info.name}`}>{info.name}</Link>{" "}
+                  )}
+                  <Link to={`/details/${info.iso2}`}>{info.name}</Link>
                 </>
               )}
               fixed="left"

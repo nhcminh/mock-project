@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
-import { NewsViewReducer } from "./slices/newsView";
+import { SelectedNewsReducer } from "./slices/selectedNews";
 import { TodayDataReducer } from "./slices/todayData";
 import { YesterdayDataReducer } from "./slices/yesterdatData";
+import { ThemeReducer } from "./slices/theme";
 const rootReducer = combineReducers({
-  NewsViewReducer,
+  SelectedNewsReducer,
   TodayDataReducer,
   YesterdayDataReducer,
+  ThemeReducer,
 });
 
 export default rootReducer;

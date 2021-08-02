@@ -16,19 +16,34 @@ function SearchBar(props) {
     },
     [history]
   );
+
   return (
     <>
       {searchData && (
         <Select
+          className="basic-multi-select"
+          classNamePrefix="select"
           name="countries"
           styles={{
             menu: (provided) => ({ ...provided, zIndex: 9999 }),
+            option: (styles, { isDisabled, isFocused, isSelected }) => {
+              return {
+                ...styles,
+                backgroundColor: isDisabled
+                  ? null
+                  : isSelected
+                  ? "white"
+                  : isFocused
+                  ? "gainsboro"
+                  : null,
+                color: isDisabled ? "#ccc" : isSelected ? "white" : "black",
+                cursor: isDisabled ? "not-allowed" : "default",
+              };
+            },
           }}
           options={searchData.map((item) => {
-            return { value: item.countryInfo.iso3, label: item.country };
+            return { value: item.countryInfo.iso2, label: item.country };
           })}
-          className="basic-multi-select"
-          classNamePrefix="select"
           isClearable={true}
           onChange={handleChange}
         />

@@ -52,6 +52,7 @@ const todayData = createSlice({
           key: new Date().getTime() + country,
           info: {
             name: country,
+            iso2: countryInfo.iso2,
             flag: countryInfo.flag,
           },
           cases,

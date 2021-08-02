@@ -1,9 +1,18 @@
-import { Form, Input, Button, Row, Col, Typography, Alert } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Row,
+  Col,
+  Typography,
+  Alert,
+  Spin,
+  message,
+} from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Layout from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import LoadingSpinner from "../../HOC/LoadingSpinner";
 import { useCallback } from "react";
 
 const Login = (props) => {
@@ -13,98 +22,104 @@ const Login = (props) => {
   const onFinish = useCallback(
     (values) => {
       const accountList = JSON.parse(localStorage.getItem("ac"));
+      setIsLoading(true);
       const account = accountList.find((item) => item.email === values.email);
-      setTimeout(() => {
-        if (!account) {
-          setIsError(false);
-          return;
-        }
+      message.loading("Check your account..", 1.5).then(() => {
         if (
           values.email === account.email &&
           values.password === account.password
         ) {
-          history.push("/home");
-          localStorage.setItem("isLogin", true);
-          return;
+          message
+            .success("Login Successful!", 2.5)
+            .then(() => message.info("Return to home in 2 second"), 2)
+            .then(() => {
+              history.push("/home");
+              localStorage.setItem("isLogin", true);
+            });
+        } else {
+          message
+            .error("Wrong email or password!", 1)
+            .then(() => setIsLoading(false));
         }
-        setIsError(true);
-      }, 1500);
+      });
     },
     [history]
   );
   useEffect(() => {
-    setTimeout(setIsLoading(false), 1500);
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 1500);
     return () => {
       clearTimeout();
     };
   }, []);
   return (
     <>
-      {isLoading && <LoadingSpinner />}
-      <Layout
-        style={{
-          minHeight: "100vh",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Row>
-          <Col>
-            <Typography.Title level={3} style={{ textAlign: "center" }}>
-              Please Sign in
-            </Typography.Title>
-            {isError && (
-              <Alert
-                className="animate__animated animate__bounceIn"
-                style={{ margin: "1rem auto" }}
-                message="Wrong username or email"
-                type="error"
-                showIcon
-                closable
-                onClose={() => setIsError(false)}
-              />
-            )}
-            <Form name="normal_login" size="large" onFinish={onFinish}>
-              <Form.Item
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Email!",
-                  },
-                ]}
-              >
-                <Input
-                  prefix={<UserOutlined />}
-                  type="email"
-                  placeholder="Email"
+      <Spin spinning={isLoading}>
+        <Layout
+          style={{
+            minHeight: "100vh",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Row>
+            <Col>
+              <Typography.Title level={3} style={{ textAlign: "center" }}>
+                Please Sign in
+              </Typography.Title>
+              {isError && (
+                <Alert
+                  className="animate__animated animate__bounceIn"
+                  style={{ margin: "1rem auto" }}
+                  message="Wrong username or email"
+                  type="error"
+                  showIcon
+                  closable
+                  onClose={() => setIsError(false)}
                 />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Password!",
-                  },
-                ]}
-              >
-                <Input.Password
-                  prefix={<LockOutlined />}
-                  placeholder="Password"
-                />
-              </Form.Item>
+              )}
+              <Form name="normal_login" size="large" onFinish={onFinish}>
+                <Form.Item
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Email!",
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined />}
+                    type="email"
+                    placeholder="Email"
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Password!",
+                    },
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    placeholder="Password"
+                  />
+                </Form.Item>
 
-              <Form.Item>
-                <Button type="primary" htmlType="submit" block>
-                  Log in
-                </Button>
-                Or <Link to="/signup">Create an acoount</Link>
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
-      </Layout>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" block>
+                    Log in
+                  </Button>
+                  Or <Link to="/signup">Create an acoount</Link>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+        </Layout>
+      </Spin>
     </>
   );
 };

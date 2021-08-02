@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import HighStock from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
+import { useSelector } from "react-redux";
 
 HighStock.setOptions({
   lang: {
@@ -11,6 +12,7 @@ HighStock.setOptions({
 });
 function BarChart(props) {
   const { title, data } = props;
+  const theme = useSelector((state) => state.ThemeReducer.theme);
   const chart = useRef();
   useEffect(() => {
     const chartObj = chart.current.chart;
@@ -22,19 +24,44 @@ function BarChart(props) {
   const options = useMemo(() => {
     return {
       chart: {
+        backgroundColor: theme === "light" ? "#eeeeee" : "rgba(20,20,20,1)",
         height: 500,
       },
+      colors: ["#77a1e5", "#c42525", "#a6c96a"],
       rangeSelector: {
+        buttonTheme: {
+          // styles for the buttons
+          fill: "none",
+          stroke: "none",
+          "stroke-width": 0,
+          padding: 10,
+          r: 5,
+          style: {
+            color: "#039",
+            fontWeight: "bold",
+            textTransform: "uppercase",
+          },
+          states: {
+            hover: {},
+            select: {
+              fill: "#039",
+              style: {
+                color: "white",
+              },
+            },
+            // disabled: { ... }
+          },
+        },
         selected: 5,
         inputBoxBorderColor: "gray",
         inputBoxWidth: 110,
         inputBoxHeight: 18,
         inputStyle: {
-          color: "#039",
+          color: theme === "dark" ? "#eee" : "#039",
           fontWeight: "bold",
         },
         labelStyle: {
-          color: "silver",
+          color: theme === "dark" ? "#eee" : "#171717",
           fontWeight: "bold",
         },
       },
@@ -42,6 +69,7 @@ function BarChart(props) {
         text: title + " Situation",
         style: {
           fontSize: "25px",
+          color: theme === "dark" ? "#eee" : "#171717",
         },
       },
       yAxis: {
@@ -91,7 +119,7 @@ function BarChart(props) {
         enabled: false,
       },
     };
-  }, [data, title]);
+  }, [data, theme, title]);
 
   return (
     <>

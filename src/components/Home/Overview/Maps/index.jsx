@@ -5,11 +5,13 @@ import map from "highcharts/modules/map";
 import world from "@highcharts/map-collection/custom/world.geo.json";
 import { getAllCountries } from "../../../API/AxiosClient";
 import { Spin } from "antd";
+import { useSelector } from "react-redux";
 map(Highcharts);
 
 function Maps(props) {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const theme = useSelector((state) => state.ThemeReducer.theme);
   useEffect(() => {
     getAllCountries()
       .then((res) => {
@@ -27,15 +29,8 @@ function Maps(props) {
   const options = useMemo(() => {
     return {
       chart: {
-        map: world,
-        height: 500,
-        animation: {
-          duration: 500,
-        },
-      },
-      loading: {
-        hideDuration: 1000,
-        showDuration: 1000,
+        backgroundColor:
+          theme === "dark" ? "#bbbbbb" : "rgba(255,255,255,0.75)",
       },
       colors: [
         "rgba(19,64,117,0.05)",
@@ -46,52 +41,6 @@ function Maps(props) {
         "rgba(19,64,117,0.8)",
         "rgba(19,64,117,1)",
       ],
-      title: {
-        text: "Active cases by country",
-      },
-      mapNavigation: {
-        enabled: true,
-        buttonOptions: {
-          align: "left",
-          x: 10,
-        },
-        enableDoubleClickZoomTo: true,
-      },
-      tooltip: {
-        borderWidth: 1,
-        shadow: false,
-        padding: 10,
-        useHTML: true,
-        pointFormat:
-          '<span class="f32"><span class="flag {point.properties.hc-key}">' +
-          "</span></span> {point.name}<br>" +
-          '<span style="font-size:20px">{point.value} cases</span>',
-      },
-      legend: {
-        title: {
-          text: "Active cases",
-          style: {
-            color:
-              (Highcharts.defaultOptions &&
-                Highcharts.defaultOptions.legend &&
-                Highcharts.defaultOptions.legend.title &&
-                Highcharts.defaultOptions.legend.title.style &&
-                Highcharts.defaultOptions.legend.title.style.color) ||
-              "black",
-          },
-        },
-        floating: false,
-        align: "left",
-        verticalAlign: "bottom",
-        layout: "horizontal",
-        backgroundColor:
-          (Highcharts.defaultOptions &&
-            Highcharts.defaultOptions.legend &&
-            Highcharts.defaultOptions.legend.backgroundColor) ||
-          "rgba(255, 255, 255, 0.85)",
-        symbolRadius: 0,
-      },
-
       colorAxis: {
         dataClasses: [
           {
@@ -122,25 +71,39 @@ function Maps(props) {
           },
         ],
       },
-      series: [
-        {
-          data: countries,
-          keys: ["iso-a3", "value", "flag"],
-          joinBy: "iso-a3",
-          name: "Active cases",
-          states: {
-            hover: {
-              color: "#a4edba",
-            },
-          },
-          dataLabels: {
-            enabled: true,
-            format: "{point.properties.postal}",
-          },
-        },
-      ],
       credits: {
         enabled: false,
+      },
+      legend: {
+        align: "left",
+        backgroundColor:
+          (Highcharts.defaultOptions &&
+            Highcharts.defaultOptions.legend &&
+            Highcharts.defaultOptions.legend.backgroundColor) ||
+          "rgba(255, 255, 255, 0.85)",
+        floating: false,
+        layout: "horizontal",
+        symbolRadius: 0,
+        title: {
+          text: "Active cases",
+          style: {
+            color:
+              (Highcharts.defaultOptions &&
+                Highcharts.defaultOptions.legend &&
+                Highcharts.defaultOptions.legend.title &&
+                Highcharts.defaultOptions.legend.title.style &&
+                Highcharts.defaultOptions.legend.title.style.color) ||
+              "black",
+          },
+        },
+        verticalAlign: "bottom",
+      },
+      mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+          align: "left",
+          x: 10,
+        },
       },
       responsive: {
         rules: [
@@ -157,8 +120,40 @@ function Maps(props) {
           },
         ],
       },
+      series: [
+        {
+          borderColor: "rgba(0,0,0,0.75)",
+          data: countries,
+          dataLabels: {
+            enabled: true,
+            format: "{point.properties.postal}",
+          },
+          joinBy: "iso-a3",
+          keys: ["iso-a3", "value", "flag"],
+          mapData: world,
+          name: "Active cases",
+          states: {
+            hover: {
+              color: "#a4edba",
+            },
+          },
+        },
+      ],
+      title: {
+        text: "Active cases by country",
+      },
+      tooltip: {
+        borderWidth: 1,
+        padding: 10,
+        shadow: false,
+        useHTML: true,
+        pointFormat:
+          '<span class="f32"><span class="flag {point.properties.hc-key}">' +
+          "</span></span> {point.name}<br>" +
+          '<span style="font-size:20px">{point.value} cases</span>',
+      },
     };
-  }, [countries]);
+  }, [countries, theme]);
   return (
     <>
       <Spin spinning={isLoading}>
