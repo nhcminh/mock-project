@@ -1,14 +1,4 @@
-import {
-  Form,
-  Input,
-  Button,
-  Row,
-  Col,
-  Typography,
-  Alert,
-  Spin,
-  message,
-} from "antd";
+import { Form, Input, Button, Row, Col, Typography, Spin, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import Layout from "antd/lib/layout/layout";
 import { useEffect, useState } from "react";
@@ -16,7 +6,6 @@ import { Link, useHistory } from "react-router-dom";
 import { useCallback } from "react";
 
 const Login = (props) => {
-  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
   const onFinish = useCallback(
@@ -25,17 +14,23 @@ const Login = (props) => {
       setIsLoading(true);
       const account = accountList.find((item) => item.email === values.email);
       message.loading("Check your account..", 1.5).then(() => {
-        if (
-          values.email === account.email &&
-          values.password === account.password
-        ) {
-          message
-            .success("Login Successful!", 2.5)
-            .then(() => message.info("Return to home in 2 second"), 2)
-            .then(() => {
-              history.push("/home");
-              localStorage.setItem("isLogin", true);
-            });
+        if (account) {
+          if (
+            values.email === account.email &&
+            values.password === account.password
+          ) {
+            message
+              .success("Login Successful!", 2.5)
+              .then(() => message.info("Return to home in 2 second"), 2)
+              .then(() => {
+                history.push("/home");
+                localStorage.setItem("isLogin", true);
+              });
+          } else {
+            message
+              .error("Wrong email or password!", 1)
+              .then(() => setIsLoading(false));
+          }
         } else {
           message
             .error("Wrong email or password!", 1)
@@ -64,20 +59,8 @@ const Login = (props) => {
         >
           <Row>
             <Col>
-              <Typography.Title level={3} style={{ textAlign: "center" }}>
-                Please Sign in
-              </Typography.Title>
-              {isError && (
-                <Alert
-                  className="animate__animated animate__bounceIn"
-                  style={{ margin: "1rem auto" }}
-                  message="Wrong username or email"
-                  type="error"
-                  showIcon
-                  closable
-                  onClose={() => setIsError(false)}
-                />
-              )}
+              <Typography.Title level={3}>Please Sign in</Typography.Title>
+
               <Form name="normal_login" size="large" onFinish={onFinish}>
                 <Form.Item
                   name="email"

@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getNews } from "../API/AxiosClient";
 import { SelectedNewsActions } from "../../redux/slices/selectedNews";
-import { fetchGlobalYesterdayData } from "../../redux/slices/yesterdatData";
 function News(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isInitLoading, setIsInitLoading] = useState(true);
@@ -27,8 +26,8 @@ function News(props) {
   useEffect(() => {
     getData((res) => {
       setIsInitLoading(false);
-      setData(res.data.articles);
-      setNewsList(res.data.articles);
+      setData(res.data);
+      setNewsList(res.data);
     });
   }, [getData]);
   const onLoadMore = useCallback(() => {
@@ -42,10 +41,10 @@ function News(props) {
       )
     );
     getData((res) => {
-      const newData = data.concat(res.data.articles);
+      const newData = data.concat(res.data);
       setNewsList(newData);
       setData(newData);
-      setIsLoading(fetchGlobalYesterdayData);
+      setIsLoading(false);
       setCount(count + 4);
       // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
       // In real scene, you can using public method of react-virtualized:
@@ -73,8 +72,8 @@ function News(props) {
   };
   return (
     <>
-      <Row justify={"center"} style={{ marginTop: "1rem" }}>
-        <Col span={22} style={{ padding: "2rem 0" }}>
+      <Row justify={"center"}>
+        <Col span={22}>
           <Typography.Title style={{ textAlign: "center" }}>
             Covid News
           </Typography.Title>
@@ -119,7 +118,7 @@ function News(props) {
                     }
                   />
                   <Typography.Paragraph ellipsis={{ rows: 2 }}>
-                    {item.content.slice(0, 200)}
+                    {item.content}
                   </Typography.Paragraph>
                 </Skeleton>
               </List.Item>

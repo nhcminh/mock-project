@@ -1,7 +1,9 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import HighStock from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import { useSelector } from "react-redux";
+import { Col, Row } from "antd";
+import { useEffect } from "react";
 
 HighStock.setOptions({
   lang: {
@@ -13,21 +15,24 @@ HighStock.setOptions({
 function BarChart(props) {
   const { title, data } = props;
   const theme = useSelector((state) => state.ThemeReducer.theme);
-  const chart = useRef();
-  useEffect(() => {
-    const chartObj = chart.current.chart;
-    chartObj.showLoading();
-    if (data) {
-      chartObj.hideLoading();
-    }
-  }, [data]);
+  const chartRef = useRef();
+  useEffect(() => {}, [theme]);
   const options = useMemo(() => {
     return {
       chart: {
-        backgroundColor: theme === "light" ? "#eeeeee" : "rgba(20,20,20,1)",
+        backgroundColor: "transparent",
         height: 500,
+        events: {
+          load: function () {
+            console.log(this.rangeSelector);
+            this.rangeSelector.dropdown.style.backgroundColor =
+              theme === "dark" ? "white" : "gainbroso";
+            this.rangeSelector.dropdown.style.color =
+              theme === "light" ? "black" : "black";
+          },
+        },
       },
-      colors: ["#77a1e5", "#c42525", "#a6c96a"],
+      colors: ["#185ADB", "#ff4d4f", "#52c41a"],
       rangeSelector: {
         buttonTheme: {
           // styles for the buttons
@@ -42,7 +47,11 @@ function BarChart(props) {
             textTransform: "uppercase",
           },
           states: {
-            hover: {},
+            hover: {
+              style: {
+                color: "black",
+              },
+            },
             select: {
               fill: "#039",
               style: {
@@ -52,6 +61,7 @@ function BarChart(props) {
             // disabled: { ... }
           },
         },
+        dropdown: "always",
         selected: 5,
         inputBoxBorderColor: "gray",
         inputBoxWidth: 110,
@@ -74,7 +84,7 @@ function BarChart(props) {
       },
       yAxis: {
         title: {
-          text: "Number of Cases",
+          text: " ",
         },
       },
       xAxis: {
@@ -85,9 +95,12 @@ function BarChart(props) {
       },
       legend: {
         enabled: true,
-        layout: "vertical",
-        align: "top",
-        verticalAlign: "middle",
+        layout: "horizontal",
+        align: "center",
+        verticalAlign: "top",
+        itemStyle: {
+          color: theme === "dark" ? "#eee" : "#171717",
+        },
       },
       plotOptions: {
         series: {
@@ -107,9 +120,9 @@ function BarChart(props) {
             },
             chartOptions: {
               legend: {
-                layout: "horizontal",
-                align: "center",
-                verticalAlign: "bottom",
+                layout: "vertical",
+                align: "top",
+                verticalAlign: "top",
               },
             },
           },
@@ -122,14 +135,16 @@ function BarChart(props) {
   }, [data, theme, title]);
 
   return (
-    <>
-      <HighchartsReact
-        highcharts={HighStock}
-        constructorType={"stockChart"}
-        options={options}
-        ref={chart}
-      />
-    </>
+    <Row className="boxShadow">
+      <Col span={24}>
+        <HighchartsReact
+          highcharts={HighStock}
+          constructorType={"stockChart"}
+          options={options}
+          ref={chartRef}
+        />
+      </Col>
+    </Row>
   );
 }
 

@@ -32,9 +32,9 @@ function SearchBar(props) {
                 backgroundColor: isDisabled
                   ? null
                   : isSelected
-                  ? "white"
+                  ? "#185ADB"
                   : isFocused
-                  ? "gainsboro"
+                  ? "#d9e2ec"
                   : null,
                 color: isDisabled ? "#ccc" : isSelected ? "white" : "black",
                 cursor: isDisabled ? "not-allowed" : "default",

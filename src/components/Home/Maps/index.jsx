@@ -3,7 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import map from "highcharts/modules/map";
 import world from "@highcharts/map-collection/custom/world.geo.json";
-import { getAllCountries } from "../../../API/AxiosClient";
+import { getAllCountries } from "../../API/AxiosClient";
 import { Spin } from "antd";
 import { useSelector } from "react-redux";
 map(Highcharts);
