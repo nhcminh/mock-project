@@ -1,12 +1,30 @@
 import React from "react";
+import Visualization from "./Visualization";
+import Statistic from "./Statistic";
+import Maps from "./Maps";
+import { Col, Row } from "antd";
 import Overview from "./Overview";
-import DataTable from "./DataTable";
 
 function Home(props) {
   return (
     <>
-      <Overview />
-      <DataTable />
+      <Maps />
+      <Row style={{ padding: "1rem" }} justify="space-between" gutter={[0, 16]}>
+        <Col
+          className="boxShadow"
+          xs={{ span: 24 }}
+          md={{ span: 8 }}
+          xxl={{ span: 5 }}
+        >
+          <Overview />
+        </Col>
+        <Col xs={{ span: 24 }} md={{ span: 15 }} xxl={{ span: 18 }}>
+          <Visualization />
+        </Col>
+        <Col span={24} className="boxShadow">
+          <Statistic />
+        </Col>
+      </Row>
     </>
   );
 }

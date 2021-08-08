@@ -1,26 +1,19 @@
 import { Col, Layout, Menu, Row } from "antd";
 import React from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import SettingMenu from "../../components/SettingMenu";
 function MainLayout(props) {
   const history = useHistory();
-  const theme = useSelector((state) => state.ThemeReducer.theme);
   return (
     <Layout style={{ minHeight: "92vh" }}>
-      <Layout.Header
-        style={
-          theme === "light" ? { background: "#fff" } : { background: "#141414" }
-        }
-      >
+      <Layout.Header>
         <Row justify="space-between" align="middle">
           <Col xs={{ span: 5 }}>
             <Menu
               mode="horizontal"
               defaultSelectedKeys={history.location.pathname.split("/")[1]}
               triggerSubMenuAction="click"
-              style={{ transition: "linear 0.3s" }}
             >
               <Menu.Item
                 key="home"
@@ -48,9 +41,7 @@ function MainLayout(props) {
           </Col>
         </Row>
       </Layout.Header>
-      <Layout.Content style={{ background: "fff" }}>
-        {props.children}
-      </Layout.Content>
+      <Layout.Content>{props.children}</Layout.Content>
     </Layout>
   );
 }

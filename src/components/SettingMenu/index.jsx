@@ -39,7 +39,25 @@ function SettingMenu(props) {
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="0">
-        <Switch onChange={onChangeTheme} />
+        <Switch
+          unCheckedChildren={
+            <img
+              src="https://image.flaticon.com/icons/png/512/1196/1196517.png"
+              alt="light"
+              width="20px"
+              style={{ verticalAlign: "baseline" }}
+            />
+          }
+          checkedChildren={
+            <img
+              src="https://image.flaticon.com/icons/png/512/2204/2204369.png"
+              alt="dark"
+              width="20px"
+              style={{ verticalAlign: "baseline" }}
+            />
+          }
+          onChange={onChangeTheme}
+        />
       </Menu.Item>
       <Menu.Item key="1">Lang:</Menu.Item>
       {isLogin ? (

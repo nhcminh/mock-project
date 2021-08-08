@@ -1,7 +1,6 @@
 import axios from "axios";
 const domain = "https://disease.sh/v3/covid-19";
-const newsApi =
-  "https://newsapi.org/v2/everything?q=COVID&apiKey=041d24fcb2004ad997981013ffae5910";
+const newsApi = "https://article-json-server.herokuapp.com/articles";
 export const getGlobalLastestData = () => {
   return axios.get(domain + "/all");
 };
@@ -19,7 +18,7 @@ export const getCountriesYesterdayData = () => {
 };
 
 export const getNews = (size) => {
-  return axios.get(newsApi + `&pageSize=${size}&page=1`);
+  return axios.get(newsApi);
 };
 
 export const getHistorical = (area) => {

@@ -65,9 +65,7 @@ function SignUp(props) {
         >
           <Row>
             <Col>
-              <Typography.Title level={3} style={{ textAlign: "center" }}>
-                Create Your Account
-              </Typography.Title>
+              <Typography.Title level={3}>Create Your Account</Typography.Title>
               <Form name="normal_login" size="large" onFinish={onFinish}>
                 <Form.Item
                   name="email"

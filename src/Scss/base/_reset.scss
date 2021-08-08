@@ -26,6 +26,15 @@ div.ant-typography,
 .select__control {
     line-height: 32px;
 }
+.boxShadow {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 3px 4px;
+    border-radius: 10px;
+    margin: 0.5rem 0;
+    padding: 1rem;
+}
+.textCenter {
+    text-align: center;
+}
 @media (min-width: 0) {
     .ant-layout-header {
         padding: 0 5px;
