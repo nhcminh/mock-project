@@ -1,11 +1,12 @@
-import { Button, Col, List, Row, Skeleton, Typography } from "antd";
-import React, { useEffect, useState } from "react";
-import { useCallback } from "react";
-import { useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { getNews } from "../API/AxiosClient";
-import { SelectedNewsActions } from "../../redux/slices/selectedNews";
+import { Button, Col, List, Row, Skeleton, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useCallback } from 'react';
+import { useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getNews } from '../API/AxiosClient';
+import { SelectedNewsActions } from '../../redux/slices/selectedNews';
+import { useTranslation } from 'react-i18next';
 function News(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [isInitLoading, setIsInitLoading] = useState(true);
@@ -13,6 +14,7 @@ function News(props) {
   const [newsList, setNewsList] = useState([]);
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const getData = useCallback(
     (callback) => {
       getNews(count)
@@ -49,7 +51,7 @@ function News(props) {
       // Resetting window's offsetTop so as to display react-virtualized demo underfloor.
       // In real scene, you can using public method of react-virtualized:
       // https://stackoverflow.com/questions/46700726/how-to-use-public-method-updateposition-of-react-virtualized
-      window.dispatchEvent(new Event("resize"));
+      window.dispatchEvent(new Event('resize'));
     });
   }, [count, data, getData]);
 
@@ -57,32 +59,32 @@ function News(props) {
     return !isInitLoading && !isLoading ? (
       <div
         style={{
-          textAlign: "center",
+          textAlign: 'center',
           marginTop: 12,
           height: 32,
-          lineHeight: "32px",
+          lineHeight: '32px',
         }}
       >
-        <Button onClick={onLoadMore}>loading more</Button>
+        <Button onClick={onLoadMore}>{t('NewsPage.BtnLoadMore')}</Button>
       </div>
     ) : null;
-  }, [isInitLoading, isLoading, onLoadMore]);
+  }, [isInitLoading, isLoading, onLoadMore, t]);
   const handleNewsSelect = (news) => {
     dispatch(SelectedNewsActions.changeNews(news));
   };
   return (
     <>
-      <Row justify={"center"}>
+      <Row justify={'center'}>
         <Col span={22}>
-          <Typography.Title style={{ textAlign: "center" }}>
-            Covid News
+          <Typography.Title style={{ textAlign: 'center' }}>
+            {t('NewsPage.Title')}
           </Typography.Title>
           <List
             dataSource={newsList}
             loadMore={loadMore}
             loading={isInitLoading}
-            itemLayout="vertical"
-            size="large"
+            itemLayout='vertical'
+            size='large'
             renderItem={(item) => (
               <List.Item
                 actions={[
@@ -91,10 +93,10 @@ function News(props) {
                       handleNewsSelect(item);
                     }}
                   >
-                    Read More
+                    {t('NewsPage.BtnReadMore')}
                   </Button>,
                 ]}
-                extra={<img alt="cover" src={item.urlToImage} width={272} />}
+                extra={<img alt='cover' src={item.urlToImage} width={272} />}
               >
                 <Skeleton title={false} loading={item.loading} active>
                   <List.Item.Meta
@@ -110,7 +112,7 @@ function News(props) {
                     }
                     description={
                       <Typography.Paragraph
-                        style={{ fontStyle: "italic", fontSize: "14px" }}
+                        style={{ fontStyle: 'italic', fontSize: '14px' }}
                         ellipsis={{ rows: 1 }}
                       >
                         {item.description}

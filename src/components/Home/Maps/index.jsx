@@ -1,17 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-import map from "highcharts/modules/map";
-import world from "@highcharts/map-collection/custom/world.geo.json";
-import { getAllCountries } from "../../API/AxiosClient";
-import { Spin } from "antd";
-import { useSelector } from "react-redux";
+import React, { useEffect, useMemo, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import map from 'highcharts/modules/map';
+import world from '@highcharts/map-collection/custom/world.geo.json';
+import { getAllCountries } from '../../API/AxiosClient';
+import { Spin } from 'antd';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 map(Highcharts);
 
 function Maps(props) {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const theme = useSelector((state) => state.ThemeReducer.theme);
+  const { t } = useTranslation();
   useEffect(() => {
     getAllCountries()
       .then((res) => {
@@ -30,16 +32,16 @@ function Maps(props) {
     return {
       chart: {
         backgroundColor:
-          theme === "dark" ? "#bbbbbb" : "rgba(255,255,255,0.75)",
+          theme === 'dark' ? '#bbbbbb' : 'rgba(255,255,255,0.75)',
       },
       colors: [
-        "rgba(19,64,117,0.05)",
-        "rgba(19,64,117,0.2)",
-        "rgba(19,64,117,0.4)",
-        "rgba(19,64,117,0.5)",
-        "rgba(19,64,117,0.6)",
-        "rgba(19,64,117,0.8)",
-        "rgba(19,64,117,1)",
+        'rgba(19,64,117,0.05)',
+        'rgba(19,64,117,0.2)',
+        'rgba(19,64,117,0.4)',
+        'rgba(19,64,117,0.5)',
+        'rgba(19,64,117,0.6)',
+        'rgba(19,64,117,0.8)',
+        'rgba(19,64,117,1)',
       ],
       colorAxis: {
         dataClasses: [
@@ -75,17 +77,17 @@ function Maps(props) {
         enabled: false,
       },
       legend: {
-        align: "left",
+        align: 'left',
         backgroundColor:
           (Highcharts.defaultOptions &&
             Highcharts.defaultOptions.legend &&
             Highcharts.defaultOptions.legend.backgroundColor) ||
-          "rgba(255, 255, 255, 0.85)",
+          'rgba(255, 255, 255, 0.85)',
         floating: false,
-        layout: "horizontal",
+        layout: 'horizontal',
         symbolRadius: 0,
         title: {
-          text: "Active cases",
+          text: t('HomePage.Map.Legends.Title'),
           style: {
             color:
               (Highcharts.defaultOptions &&
@@ -93,15 +95,15 @@ function Maps(props) {
                 Highcharts.defaultOptions.legend.title &&
                 Highcharts.defaultOptions.legend.title.style &&
                 Highcharts.defaultOptions.legend.title.style.color) ||
-              "black",
+              'black',
           },
         },
-        verticalAlign: "bottom",
+        verticalAlign: 'bottom',
       },
       mapNavigation: {
         enabled: true,
         buttonOptions: {
-          align: "left",
+          align: 'left',
           x: 10,
         },
       },
@@ -114,7 +116,7 @@ function Maps(props) {
             chartOptions: {
               legend: {
                 floating: true,
-                layout: "vertical",
+                layout: 'vertical',
               },
             },
           },
@@ -122,25 +124,25 @@ function Maps(props) {
       },
       series: [
         {
-          borderColor: "rgba(0,0,0,0.75)",
+          borderColor: 'rgba(0,0,0,0.75)',
           data: countries,
           dataLabels: {
             enabled: true,
-            format: "{point.properties.postal}",
+            format: '{point.properties.postal}',
           },
-          joinBy: "iso-a3",
-          keys: ["iso-a3", "value", "flag"],
+          joinBy: 'iso-a3',
+          keys: ['iso-a3', 'value', 'flag'],
           mapData: world,
-          name: "Active cases",
+          name: t('HomePage.Map.Legends.Title'),
           states: {
             hover: {
-              color: "#a4edba",
+              color: '#a4edba',
             },
           },
         },
       ],
       title: {
-        text: "Active cases by country",
+        text: t('HomePage.Map.Title'),
       },
       tooltip: {
         borderWidth: 1,
@@ -149,17 +151,17 @@ function Maps(props) {
         useHTML: true,
         pointFormat:
           '<span class="f32"><span class="flag {point.properties.hc-key}">' +
-          "</span></span> {point.name}<br>" +
-          '<span style="font-size:20px">{point.value} cases</span>',
+          '</span></span> {point.name}<br>' +
+          '<span style="font-size:20px">{point.value} {t("HomePage.Map.Cases")}</span>',
       },
     };
-  }, [countries, theme]);
+  }, [countries, t, theme]);
   return (
     <>
       <Spin spinning={isLoading}>
         <HighchartsReact
           highcharts={Highcharts}
-          constructorType="mapChart"
+          constructorType='mapChart'
           options={options}
         />
       </Spin>

@@ -3,9 +3,11 @@ import { Col, Row, Space, Typography } from 'antd';
 import { useEffect } from 'react';
 import Chart from '../../../HOC/Chart';
 import { getHistorical } from '../../API/AxiosClient';
+import { useTranslation } from 'react-i18next';
 
 function Visualization(props) {
   const [data, setData] = useState({});
+  const { t } = useTranslation();
   useEffect(() => {
     getHistorical('all')
       .then((res) => setData(res.data))
@@ -30,7 +32,7 @@ function Visualization(props) {
                   width='40px'
                 />
                 <Typography.Text style={{ fontSize: '12px' }}>
-                  Lasted Cases
+                  {t('HomePage.Visualize.Status.LatestCases')}
                 </Typography.Text>
                 <Typography.Paragraph
                   style={{
@@ -59,7 +61,7 @@ function Visualization(props) {
                   width='40px'
                 />
                 <Typography.Text style={{ fontSize: '12px' }}>
-                  Lasted Deaths
+                  {t('HomePage.Visualize.Status.LatestDeaths')}
                 </Typography.Text>
                 <Typography.Paragraph
                   type='danger'
@@ -85,7 +87,7 @@ function Visualization(props) {
                   width='40px'
                 />
                 <Typography.Text style={{ fontSize: '12px' }}>
-                  Lasted Recovered
+                  {t('HomePage.Visualize.Status.LatestRecovered')}
                 </Typography.Text>
                 <Typography.Paragraph
                   type='success'
@@ -106,9 +108,18 @@ function Visualization(props) {
           <Chart
             title='Global'
             data={[
-              { name: 'Cases', data: Object.values(cases) },
-              { name: 'Deaths', data: Object.values(deaths) },
-              { name: 'Recovered', data: Object.values(recovered) },
+              {
+                name: t('HomePage.Visualize.Chart.Legends.Cases'),
+                data: Object.values(cases),
+              },
+              {
+                name: t('HomePage.Visualize.Chart.Legends.Deaths'),
+                data: Object.values(deaths),
+              },
+              {
+                name: t('HomePage.Visualize.Chart.Legends.Recovered'),
+                data: Object.values(recovered),
+              },
             ]}
             label='Confirmed Cases'
           />
