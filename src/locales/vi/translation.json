@@ -1,0 +1,149 @@
+{
+    "Header": {
+        "Menu": {
+            "Home": "Trang Chủ",
+            "News": "Tin Tức"
+        },
+        "SearchBar": {
+            "Select": "Tìm Kiếm"
+        },
+        "Settings": {
+            "Language": "Ngôn Ngữ",
+            "SignIn": "Đăng Nhập",
+            "LogOut": "Đăng Xuất",
+            "Mode": "Chế Độ Xem Tối",
+            "Lang": "Ngôn Ngữ"
+        }
+    },
+    "NewsPage": {
+        "Title": "Tin Tức Covid",
+        "BtnReadMore": "Xem thêm",
+        "BtnLoadMore": "Tải thêm"
+    },
+    "HomePage": {
+        "Map": {
+            "Title": "Số Ca Dương Tính Theo Quốc Gia",
+            "Legends": {
+                "Title": "Số Ca Dương Tính"
+            },
+            "Cases": "Ca Mắc"
+        },
+        "Overview": {
+            "Title": "Tổng Quan",
+            "PieChart": {
+                "Title": "Tổng Số Ca Mắc",
+                "Legends": {
+                    "Active": "Dương Tính",
+                    "Deaths": "Tử Vong",
+                    "Recovered": "Khỏi Bệnh"
+                }
+            }
+        },
+        "Visualize": {
+            "Status": {
+                "LatestCases": " Số Ca Mắc Mới Nhất",
+                "LatestDeaths": "Số Ca Tử Vong Mới Nhất",
+                "LatestRecovered": "Số Ca Khỏi Bệnh Mới Nhất"
+            },
+            "Chart": {
+                "Title": {
+                    "Global_Situation": "Tình Hình Thế Giới",
+                    "Situation": "Tình Hình"
+                },
+                "Filter": {
+                    "Action": "Lọc theo",
+                    "1_Month": "1 Tháng",
+                    "3_Month": "3 Tháng",
+                    "6_Month": "6 Tháng",
+                    "Year_to_date": "Đầu Năm Cho Đến Nay",
+                    "1_Year": "1 Năm",
+                    "All": "Tất Cả",
+                    "From": "Từ",
+                    "To": "Đến"
+                },
+                "Legends": {
+                    "Cases": "Dương Tính",
+                    "Deaths": "Tử Vong",
+                    "Recovered": "Khỏi Bệnh"
+                }
+            }
+        },
+        "Statistic": {
+            "SearchBar": {
+                "Select": "Tìm Kiếm"
+            },
+            "Filter": {
+                "Today": "Hôm nay",
+                "Yesterday": "Hôm qua"
+            },
+            "TableHead": {
+                "Name": "Tên Nước",
+                "TotalCases": "Tổng Số Ca Mắc",
+                "TotalDeaths": "Tổng Số Ca Tử Vong",
+                "TodayCases": "Tổng Số Ca Mắc Hôm Nay",
+                "TodayDeaths": "Tổng Số Ca Tử Vong Hôm Nay",
+                "YesterdayCases": "Tổng Số Ca Mắc Hôm Qua",
+                "YesterdayDeaths": "Tổng Số Ca Tử Vong Hôm Qua"
+            }
+        }
+    },
+    "DetailPage": {
+        "Status": {
+            "TodayCases": "Tổng Số Ca Mắc Hôm Nay",
+            "TodayDeaths": "Tổng Số Ca Mắc Hôm Nay",
+            "TodayRecovered": "Tổng Số Ca Khỏi Bệnh Hôm Nay"
+        }
+    },
+    "NotFoundPage": {
+        "Message": "Không Tìm Thấy Trang Này!",
+        "Btn": "Quay lại Trang Chủ"
+    },
+    "LoginPage": {
+        "Form": {
+            "Email": "Email",
+            "Password": "Mật Khẩu"
+        },
+        "Message": {
+            "Loading": "Kiểm tra tài khoản..",
+            "Success": "Đăng nhập thành công!",
+            "Info": "Quay lại trang chủ trong 1s",
+            "Error": "Sai Email hoặc Mật Khẩu!"
+        },
+        "Title": "Đăng Nhập",
+        "ValidationErr": {
+            "Email": "Vui lòng nhập đúng Email!",
+            "Password": "Vui lòng nhập đúng Mật Khẩu!"
+        },
+        "CallToAction": {
+            "Button": "Đăng Nhập",
+            "Link": "Hoặc Đăng Ký ngay!"
+        }
+    },
+    "SignUpPage": {
+        "Form": {
+            "Email": "Email",
+            "Password": "Mật Khẩu",
+            "RePassword": "Nhập Lại Mật Khẩu"
+        },
+        "Message": {
+            "Loading": "Kiểm tra email",
+            "Success": "Đăng ký thành công!",
+            "Info": "Quay lại đăng nhập",
+            "Error": {
+                "Email": "Email đã tồn tại!",
+                "RePassword": "Mật khẩu nhập lại không khớp!"
+            }
+        },
+        "Title": "Đăng Ký",
+        "ValidationErr": {
+            "Email": "Vui lòng nhập đúng Email!",
+            "Password": "Vui lòng nhập đúng Mật Khẩu!",
+            "RePassword": "Vui lòng nhập đúng Mật Khẩu Nhập Lại!"
+        },
+        "CallToAction": {
+            "Button": "Đăng Ký",
+            "Message": "Hoặc Bạn đã có tài khoản?",
+            "Link": "Đăng Nhập"
+        }
+    }
+}

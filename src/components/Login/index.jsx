@@ -1,44 +1,46 @@
-import { Form, Input, Button, Row, Col, Typography, Spin, message } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import Layout from "antd/lib/layout/layout";
-import { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { useCallback } from "react";
+import { Form, Input, Button, Row, Col, Typography, Spin, message } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import Layout from 'antd/lib/layout/layout';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Login = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
+  const { t } = useTranslation();
   const onFinish = useCallback(
     (values) => {
-      const accountList = JSON.parse(localStorage.getItem("ac"));
+      const accountList = JSON.parse(localStorage.getItem('ac'));
       setIsLoading(true);
       const account = accountList.find((item) => item.email === values.email);
-      message.loading("Check your account..", 1.5).then(() => {
+      message.loading(t('LoginPage.Message.Loading'), 1.5).then(() => {
         if (account) {
           if (
             values.email === account.email &&
             values.password === account.password
           ) {
             message
-              .success("Login Successful!", 2.5)
-              .then(() => message.info("Return to home in 2 second"), 2)
+              .success(t('LoginPage.Message.Success'), 1.5)
+              .then(() => message.info(t('LoginPage.Message.Info')), 1)
               .then(() => {
-                history.push("/home");
-                localStorage.setItem("isLogin", true);
+                history.push('/home');
+                localStorage.setItem('isLogin', true);
               });
           } else {
             message
-              .error("Wrong email or password!", 1)
+              .error(t('LoginPage.Message.Error'), 1)
               .then(() => setIsLoading(false));
           }
         } else {
           message
-            .error("Wrong email or password!", 1)
+            .error(t('LoginPage.Message.Error'), 1)
             .then(() => setIsLoading(false));
         }
       });
     },
-    [history]
+    [history, t]
   );
   useEffect(() => {
     setIsLoading(true);
@@ -52,51 +54,53 @@ const Login = (props) => {
       <Spin spinning={isLoading}>
         <Layout
           style={{
-            minHeight: "100vh",
-            justifyContent: "center",
-            alignItems: "center",
+            minHeight: '100vh',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Row>
             <Col>
-              <Typography.Title level={3}>Please Sign in</Typography.Title>
+              <Typography.Title level={3}>
+                {t('LoginPage.Title')}
+              </Typography.Title>
 
-              <Form name="normal_login" size="large" onFinish={onFinish}>
+              <Form name='normal_login' size='large' onFinish={onFinish}>
                 <Form.Item
-                  name="email"
+                  name='email'
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Email!",
+                      message: t('LoginPage.ValidationErr.Email'),
                     },
                   ]}
                 >
                   <Input
                     prefix={<UserOutlined />}
-                    type="email"
-                    placeholder="Email"
+                    type='email'
+                    placeholder={t('LoginPage.Form.Email')}
                   />
                 </Form.Item>
                 <Form.Item
-                  name="password"
+                  name='password'
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Password!",
+                      message: t('LoginPage.ValidationErr.Password'),
                     },
                   ]}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="Password"
+                    placeholder={t('LoginPage.Form.Password')}
                   />
                 </Form.Item>
 
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" block>
-                    Log in
+                  <Button type='primary' htmlType='submit' block>
+                    {t('LoginPage.CallToAction.Button')}
                   </Button>
-                  Or <Link to="/signup">Create an acoount</Link>
+                  <Link to='/signup'>{t('LoginPage.CallToAction.Link')}</Link>
                 </Form.Item>
               </Form>
             </Col>

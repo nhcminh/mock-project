@@ -1,17 +1,15 @@
-import { Typography } from "antd";
-import React from "react";
-import PieChart from "./PieChart";
+import { Typography } from 'antd';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import PieChart from './PieChart';
 
 function Overview(props) {
+  const { t } = useTranslation();
   return (
     <>
-      <img
-        src="https://image.flaticon.com/icons/png/512/2949/2949893.png"
-        alt="globe"
-        width="50%"
-        style={{ display: "block", margin: "1rem auto" }}
-      />
-      <Typography.Title className="textCenter">Overview</Typography.Title>
+      <Typography.Title className='textCenter'>
+        {t('HomePage.Overview.Title')}
+      </Typography.Title>
       <PieChart />
     </>
   );

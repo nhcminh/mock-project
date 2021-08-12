@@ -1,0 +1,149 @@
+{
+  "Header": {
+    "Menu": {
+      "Home": "Home",
+      "News": "News"
+    },
+    "SearchBar": {
+      "Select": "Select"
+    },
+    "Settings": {
+      "Language": "Language",
+      "SignIn": "Sign In",
+      "LogOut": "Log Out",
+      "Mode": "Dark Mode",
+      "Lang": "Language"
+    }
+  },
+  "NewsPage": {
+    "Title": "Covid News",
+    "BtnReadMore": "Read More",
+    "BtnLoadMore": "Load More"
+  },
+  "HomePage": {
+    "Map": {
+      "Title": "Active Cases By Country",
+      "Legends": {
+        "Title": "Active Cases"
+      },
+      "Cases": "Cases"
+    },
+    "Overview": {
+      "Title": "Overview",
+      "PieChart": {
+        "Title": "Total Cases",
+        "Legends": {
+          "Active": "Active",
+          "Deaths": "Deaths",
+          "Recovered": "Recovered"
+        }
+      }
+    },
+    "Visualize": {
+      "Status": {
+        "LatestCases": "Latest Cases",
+        "LatestDeaths": "Latest Deaths",
+        "LatestRecovered": "Latest Recovered"
+      },
+      "Chart": {
+        "Title": {
+          "Global_Situation": "Global Situation",
+          "Situation": "Situation"
+        },
+        "Filter": {
+          "Action": "Filter by",
+          "1_Month": "1 Month",
+          "3_Month": "3 Month",
+          "6_Month": "6 Month",
+          "Year_to_date": "Year to date",
+          "1_Year": "1 Year",
+          "All": "All",
+          "From": "From",
+          "To": "To"
+        },
+        "Legends": {
+          "Cases": "Cases",
+          "Deaths": "Deaths",
+          "Recovered": "Recovered"
+        }
+      }
+    },
+    "Statistic": {
+      "SearchBar": {
+        "Select": "Select"
+      },
+      "Filter": {
+        "Today": "Today",
+        "Yesterday": "Yesterday"
+      },
+      "TableHead": {
+        "Name": "Name",
+        "TotalCases": "Total Cases",
+        "TotalDeaths": "Total Deaths",
+        "TodayCases": "Today Cases",
+        "TodayDeaths": "Today Deaths",
+        "YesterdayCases": "Yesterday Cases",
+        "YesterdayDeaths": "Yesterday Deaths"
+      }
+    }
+  },
+  "DetailPage": {
+    "Status": {
+      "TodayCases": "Today Cases",
+      "TodayDeaths": "Today Deaths",
+      "TodayRecovered": "Today Recovered"
+    }
+  },
+  "NotFoundPage": {
+    "Message": "No Page Found!",
+    "Btn": "Back To Home"
+  },
+  "LoginPage": {
+    "Form": {
+      "Email": "Email",
+      "Password": "Password"
+    },
+    "Message": {
+      "Loading": "Check your account..",
+      "Success": "Login Successful!",
+      "Info": "Return to Home in 1 second",
+      "Error": "Wrong Email or Password!"
+    },
+    "Title": "Please Sign In",
+    "ValidationErr": {
+      "Email": "Please input your Email!",
+      "Password": "Please input your Password!"
+    },
+    "CallToAction": {
+      "Button": "Sign in",
+      "Link": "Or Create an account"
+    }
+  },
+  "SignUpPage": {
+    "Form": {
+      "Email": "Email",
+      "Password": "Password",
+      "RePassword": "Re-Password"
+    },
+    "Message": {
+      "Loading": "Check if email exist",
+      "Success": "Sign Up successful!",
+      "Info": "Return to Log in",
+      "Error": {
+        "Email": "Email is exist!",
+        "RePassword": "Re-password does not match!"
+      }
+    },
+    "Title": "Create your account",
+    "ValidationErr": {
+      "Email": "Please input your Email!",
+      "Password": "Please input your Password!",
+      "RePassword": "Please input your Password again!"
+    },
+    "CallToAction": {
+      "Button": "Sign Up",
+      "Message": "Or Already have account?",
+      "Link": "Sign In"
+    }
+  }
+}
