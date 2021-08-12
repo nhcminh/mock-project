@@ -1,4 +1,4 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
@@ -9,42 +9,46 @@ import {
   Row,
   Spin,
   Typography,
-} from "antd";
-import React, { useCallback, useEffect } from "react";
-import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+} from 'antd';
+import React, { useCallback, useEffect } from 'react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link, useHistory } from 'react-router-dom';
 
 function SignUp(props) {
   const [isLoading, setIsLoading] = useState(true);
   const history = useHistory();
+  const { t } = useTranslation();
   const onFinish = useCallback(
     (values) => {
       setIsLoading(true);
-      const accountList = JSON.parse(localStorage.getItem("ac"));
+      const accountList = JSON.parse(localStorage.getItem('ac'));
       const account = accountList.find((item) => {
         return item.email === values.email;
       });
-      message.loading("Check if email exist", 2).then(() => {
+      message.loading(t('SignUpPage.Message.Loading'), 2).then(() => {
         if (account) {
           setIsLoading(false);
 
-          return message.error("Email is exist!", 1);
+          return message.error(t('SignUpPage.Message.Error.Email'), 1);
         }
         if (values.password !== values.re_password) {
           setIsLoading(false);
-          return message.error("Re-password does not match!", 1);
+          return message.error(t('SignUpPage.Message.Error.RePassword'), 1);
         }
-        message.success("Sign Up successful!", 1).then(() => {
+        message.success(t('SignUpPage.Message.Success'), 1).then(() => {
           accountList.push({
             email: values.email,
             password: values.password,
           });
-          localStorage.setItem("ac", JSON.stringify(accountList));
-          message.info("Return to Log in", 1).then(history.push("/login"));
+          localStorage.setItem('ac', JSON.stringify(accountList));
+          message
+            .info(t('SignUpPage.Message.Info'), 1)
+            .then(history.push('/login'));
         });
       });
     },
-    [history]
+    [history, t]
   );
   useEffect(() => {
     setIsLoading(true);
@@ -58,63 +62,66 @@ function SignUp(props) {
       <Spin spinning={isLoading}>
         <Layout
           style={{
-            minHeight: "100vh",
-            justifyContent: "center",
-            alignItems: "center",
+            minHeight: '100vh',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <Row>
             <Col>
-              <Typography.Title level={3}>Create Your Account</Typography.Title>
-              <Form name="normal_login" size="large" onFinish={onFinish}>
+              <Typography.Title level={3}>
+                {t('SignUpPage.Title')}
+              </Typography.Title>
+              <Form name='normal_login' size='large' onFinish={onFinish}>
                 <Form.Item
-                  name="email"
+                  name='email'
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Email!",
+                      message: t('SignUpPage.ValidationErr.Email'),
                     },
                   ]}
                 >
                   <Input
                     prefix={<UserOutlined />}
-                    type="email"
-                    placeholder="Email"
+                    type='email'
+                    placeholder={t('SignUpPage.Form.Email')}
                   />
                 </Form.Item>
                 <Form.Item
-                  name="password"
+                  name='password'
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Password!",
+                      message: t('SignUpPage.ValidationErr.Password'),
                     },
                   ]}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="Password"
+                    placeholder={t('SignUpPage.Form.Password')}
                   />
                 </Form.Item>
                 <Form.Item
-                  name="re_password"
+                  name='re_password'
                   rules={[
                     {
                       required: true,
-                      message: "Please input your Password again!",
+                      message: t('SignUpPage.ValidationErr.RePassword'),
                     },
                   ]}
                 >
                   <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="Re-Password"
+                    placeholder={t('SignUpPage.Form.RePassword')}
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" block>
-                    Sign Up
+                  <Button type='primary' htmlType='submit' block>
+                    {t('SignUpPage.CallToAction.Button')}
                   </Button>
-                  Or Already have account? <Link to="/login">Login</Link>
+                  {t('SignUpPage.CallToAction.Message')}
+                  <Link to='/login'>{t('SignUpPage.CallToAction.Link')}</Link>
                 </Form.Item>
               </Form>
             </Col>

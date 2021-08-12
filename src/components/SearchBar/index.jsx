@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import { getCountriesLastestData } from "../API/AxiosClient";
+import React, { useEffect, useState } from 'react';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import { getCountriesLastestData } from '../API/AxiosClient';
 
 function SearchBar(props) {
-  const [searchData, setSearchData] = useState("");
+  const [searchData, setSearchData] = useState('');
   const history = useHistory();
+  const { t } = useTranslation();
   useEffect(() => {
     getCountriesLastestData().then((res) => setSearchData(res.data));
   }, []);
@@ -21,9 +23,9 @@ function SearchBar(props) {
     <>
       {searchData && (
         <Select
-          className="basic-multi-select"
-          classNamePrefix="select"
-          name="countries"
+          className='basic-multi-select'
+          classNamePrefix='select'
+          name='countries'
           styles={{
             menu: (provided) => ({ ...provided, zIndex: 9999 }),
             option: (styles, { isDisabled, isFocused, isSelected }) => {
@@ -32,12 +34,12 @@ function SearchBar(props) {
                 backgroundColor: isDisabled
                   ? null
                   : isSelected
-                  ? "#185ADB"
+                  ? '#185ADB'
                   : isFocused
-                  ? "#d9e2ec"
+                  ? '#d9e2ec'
                   : null,
-                color: isDisabled ? "#ccc" : isSelected ? "white" : "black",
-                cursor: isDisabled ? "not-allowed" : "default",
+                color: isDisabled ? '#ccc' : isSelected ? 'white' : 'black',
+                cursor: isDisabled ? 'not-allowed' : 'default',
               };
             },
           }}
@@ -46,6 +48,7 @@ function SearchBar(props) {
           })}
           isClearable={true}
           onChange={handleChange}
+          placeholder={t('Header.SearchBar.Select')}
         />
       )}
     </>

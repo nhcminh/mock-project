@@ -5,11 +5,12 @@ import HighchartsReact from 'highcharts-react-official';
 import { Highcharts } from 'highcharts';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 function PieChart(props) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const theme = useSelector((state) => state.ThemeReducer.theme);
-
+  const { t } = useTranslation();
   useEffect(() => {
     axios
       .get('https://disease.sh/v3/covid-19/all')
@@ -52,11 +53,20 @@ function PieChart(props) {
       },
       series: [
         {
-          name: 'Total',
+          name: t('HomePage.Overview.PieChart.Title'),
           data: [
-            { name: 'Active', y: data.active },
-            { name: 'Death', y: data.deaths },
-            { name: 'Recovered', y: data.recovered },
+            {
+              name: t('HomePage.Overview.PieChart.Legends.Active'),
+              y: data.active,
+            },
+            {
+              name: t('HomePage.Overview.PieChart.Legends.Deaths'),
+              y: data.deaths,
+            },
+            {
+              name: t('HomePage.Overview.PieChart.Legends.Recovered'),
+              y: data.recovered,
+            },
           ],
         },
       ],
@@ -67,12 +77,13 @@ function PieChart(props) {
           textAlign: 'center',
           color: theme === 'dark' ? '#eee' : '#171717',
         },
-        text: `Total Cases<br/>${data?.cases?.toLocaleString()}`,
+        text: `${t(
+          'HomePage.Overview.PieChart.Title'
+        )}<br/>${data?.cases?.toLocaleString()}`,
         useHTML: true,
       },
     };
-  }, [data.active, data?.cases, data.deaths, data.recovered, theme]);
-  console.log(data);
+  }, [data.active, data?.cases, data.deaths, data.recovered, t, theme]);
   return (
     <Spin spinning={isLoading}>
       <HighchartsReact
